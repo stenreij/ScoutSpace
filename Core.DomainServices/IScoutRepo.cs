@@ -4,6 +4,6 @@ namespace Core.DomainServices
 {
     public interface IScoutRepo
     {
-        IEnumerable<Scout> GetScouts();
+        Task<IEnumerable<Scout>> GetAllScoutsAsync();
     }
 }

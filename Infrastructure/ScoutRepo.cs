@@ -1,5 +1,6 @@
 ﻿using Core.Domain;
 using Core.DomainServices;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
@@ -12,9 +13,9 @@ namespace Infrastructure
             _context = context;
         }
 
-        public IEnumerable<Scout> GetScouts()
+        public async Task<IEnumerable<Scout>> GetAllScoutsAsync()
         {
-            return _context.Scout.ToList();
+            return await _context.Scout.ToListAsync();
         }
     }
 }

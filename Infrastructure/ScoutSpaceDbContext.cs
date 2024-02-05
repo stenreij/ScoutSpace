@@ -13,5 +13,7 @@ namespace Infrastructure
         public ScoutSpaceDbContext(DbContextOptions<ScoutSpaceDbContext> options) : base(options) { }
 
         public DbSet<Scout> Scout { get; set; }
+        public DbSet<Player> Player { get; set; }
+        public DbSet<Team> Teams { get; set; }
     }
 }

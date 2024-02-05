@@ -15,5 +15,7 @@ namespace Core.Domain
         public int phoneNr { get; set; }
         public Line line { get; set; }
         public Position position { get; set; }
+        public Foot preferedFoot { get; set; }
+        public Team team { get; set; }
     }
 }

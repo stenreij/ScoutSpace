@@ -1,11 +1,12 @@
 ﻿using Core.Domain;
+using Core.DomainServices.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.DomainServices
+namespace Core.DomainServices.Services
 {
     public class ScoutService : IScoutService
     {

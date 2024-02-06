@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Core.Domain;
-using Core.DomainServices;
+using Core.DomainServices.Interfaces;
 
 namespace API.Controllers
 {

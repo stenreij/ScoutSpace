@@ -14,6 +14,7 @@ namespace Infrastructure
 
         public DbSet<Scout> Scout { get; set; }
         public DbSet<Player> Player { get; set; }
-        public DbSet<Team> Teams { get; set; }
+        public DbSet<Team> Team { get; set; }
+        public DbSet<Notitie> Notitie { get; set; }
     }
 }

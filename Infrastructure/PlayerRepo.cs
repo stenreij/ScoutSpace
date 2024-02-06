@@ -1,21 +1,22 @@
 ﻿using Core.Domain;
+using Core.DomainServices;
 using Core.DomainServices.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
-    public class ScoutRepo : IScoutRepo
+    public class PlayerRepo : IPlayerRepo
     {
         private readonly ScoutSpaceDbContext _context;
 
-        public ScoutRepo(ScoutSpaceDbContext context)
+        public PlayerRepo(ScoutSpaceDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Scout>> GetAllScoutsAsync()
+        public async Task<IEnumerable<Player>> GetAllPlayersAsync()
         {
-            return await _context.Scout.ToListAsync();
+            return await _context.Player.ToListAsync();
         }
     }
 }

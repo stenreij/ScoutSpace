@@ -1,4 +1,6 @@
 using Core.DomainServices;
+using Core.DomainServices.Interfaces;
+using Core.DomainServices.Services;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -14,6 +16,16 @@ cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IScoutRepo, ScoutRepo>();
+builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
+builder.Services.AddScoped<IScoutService, ScoutService>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
+
+//DB connection
+builder.Services.AddDbContext<ScoutSpaceDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
 

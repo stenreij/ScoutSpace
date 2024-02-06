@@ -5,19 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure
 {
-    public class PlayerRepo : IPlayerRepo
+    public class TeamRepo : ITeamRepo
     {
         private readonly ScoutSpaceDbContext _context;
 
-        public PlayerRepo(ScoutSpaceDbContext context)
+        public TeamRepo(ScoutSpaceDbContext context)
         {
             _context = context;
         }
 
-        public async Task<IEnumerable<Player>> GetAllPlayersAsync()
+        public async Task<IEnumerable<Team>> GetAllTeamsAsync()
         {
-            return await _context.Player
-                .Include(p => p.team)
+            return await _context.Team
                 .ToListAsync();
         }
     }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -18,6 +19,7 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     firstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     lastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    birthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     phoneNr = table.Column<int>(type: "int", nullable: false)
                 },
@@ -27,7 +29,7 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Teams",
+                name: "Team",
                 columns: table => new
                 {
                     teamId = table.Column<int>(type: "int", nullable: false)
@@ -39,7 +41,7 @@ namespace Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Teams", x => x.teamId);
+                    table.PrimaryKey("PK_Team", x => x.teamId);
                 });
 
             migrationBuilder.CreateTable(
@@ -50,6 +52,7 @@ namespace Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     firstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     lastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    birthDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     residence = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     phoneNr = table.Column<int>(type: "int", nullable: true),
@@ -62,9 +65,9 @@ namespace Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Player", x => x.playerId);
                     table.ForeignKey(
-                        name: "FK_Player_Teams_teamId",
+                        name: "FK_Player_Team_teamId",
                         column: x => x.teamId,
-                        principalTable: "Teams",
+                        principalTable: "Team",
                         principalColumn: "teamId");
                 });
 
@@ -112,7 +115,7 @@ namespace Infrastructure.Migrations
                 name: "Player");
 
             migrationBuilder.DropTable(
-                name: "Teams");
+                name: "Team");
         }
     }
 }

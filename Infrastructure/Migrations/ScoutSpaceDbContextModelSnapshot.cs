@@ -56,6 +56,9 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("playerId"));
 
+                    b.Property<DateTime>("birthDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
@@ -99,6 +102,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("scoutId"));
+
+                    b.Property<DateTime>("birthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("email")
                         .IsRequired()
@@ -144,7 +150,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("teamId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Team");
                 });
 
             modelBuilder.Entity("Core.Domain.Notitie", b =>

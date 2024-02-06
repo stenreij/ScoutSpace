@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ScoutSpaceDbContext))]
-    [Migration("20240205220949_InitialMigration")]
+    [Migration("20240206163546_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -59,6 +59,9 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("playerId"));
 
+                    b.Property<DateTime>("birthDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("email")
                         .HasColumnType("nvarchar(max)");
 
@@ -102,6 +105,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("scoutId"));
+
+                    b.Property<DateTime>("birthDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("email")
                         .IsRequired()
@@ -147,7 +153,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("teamId");
 
-                    b.ToTable("Teams");
+                    b.ToTable("Team");
                 });
 
             modelBuilder.Entity("Core.Domain.Notitie", b =>

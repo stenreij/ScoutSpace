@@ -1,4 +1,5 @@
-using Core.DomainServices;
+using Core.DomainServices.Interfaces;
+using Core.DomainServices.Services;
 using Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
@@ -12,16 +13,21 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<IScoutRepo, ScoutRepo>();
-builder.Services.AddScoped<IScoutService, ScoutService>();
 
 // Configure culture to use dot as decimal separator
 var cultureInfo = new CultureInfo("nl-NL");
 cultureInfo.NumberFormat.NumberDecimalSeparator = ".";
 CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+// Add services to the container.
+builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IScoutRepo, ScoutRepo>();
+builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
+builder.Services.AddScoped<ITeamRepo, TeamRepo>();
+builder.Services.AddScoped<IScoutService, ScoutService>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
+builder.Services.AddScoped<ITeamService, TeamService>();
 
 //DB connection
 builder.Services.AddDbContext<ScoutSpaceDbContext>(options =>

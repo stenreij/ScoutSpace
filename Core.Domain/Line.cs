@@ -9,8 +9,8 @@ namespace Core.Domain
     public enum Line
     {
         Keeper,
-        Defender,
-        Midfielder,
-        Attacker
+        Verdediger,
+        Middenvelder,
+        Aanvaller
     }
 }

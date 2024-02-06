@@ -1,0 +1,23 @@
+﻿{
+  "sEmptyTable": "Geen gegevens beschikbaar in de tabel",
+  "sInfo": "Tonen _START_ tot _END_ van _TOTAL_",
+  "sInfoEmpty": "Tonen 0 van 0 resultaten",
+  "sInfoFiltered": "(gefilterd uit _MAX_ totale resultaten)",
+  "sInfoPostFix": "",
+  "sInfoThousands": ".",
+  "sLengthMenu": "Toon _MENU_ vermeldingen",
+  "sLoadingRecords": "Een moment geduld aub - bezig met laden...",
+  "sProcessing": "Bezig...",
+  "sSearch": "Zoeken:",
+  "sZeroRecords": "Er zijn geen resultaten gevonden.",
+  "oPaginate": {
+    "sFirst": "Eerste",
+    "sLast": "Laatste",
+    "sNext": "Volgende",
+    "sPrevious": "Vorige"
+  },
+  "oAria": {
+    "sSortAscending": ": activeer om kolom oplopend te sorteren",
+    "sSortDescending": ": activeer om kolom aflopend te sorteren"
+  }
+}

@@ -15,7 +15,8 @@ namespace Infrastructure
 
         public async Task<IEnumerable<Scout>> GetAllScoutsAsync()
         {
-            return await _context.Scout.ToListAsync();
+            return await _context.Scout
+                .ToListAsync();
         }
     }
 }

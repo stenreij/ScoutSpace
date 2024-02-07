@@ -1,7 +1,54 @@
-﻿@{
+﻿@using Core.Domain.Extensions
+
+@model IEnumerable<Core.Domain.Scout>
+
+@{
     ViewData["Title"] = "ScoutList Page";
 }
 
-<div class="text-center">
-    ScoutList Page Works!
+<div class="container">
+    <h2 class="text-center">ScoutList Page Works!</h2>
+
+    <div class="table-responsive">
+        <table id="teamTable" class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Voornaam</th>
+                    <th scope="col">Achternaam</th>
+                    <th scope="col">Contact</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var scout in Model)
+                {
+                    <tr>
+                        <th scope="row">@scout.scoutId</th>
+                        <td>@scout.firstName</td>
+                        <td>@scout.lastName</td>
+                        <td>@scout.phoneNr</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.css">
+
+    <script>
+        $(document).ready(function () {
+            $('#scoutTable').DataTable({
+                "language": {
+                    "url": "/datatables/Dutch.json"
+                },
+                "responsive": true
+            });
+        });
+    </script>
+}

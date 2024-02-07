@@ -1150,19 +1150,16 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
 	// two documents; shallow comparisons work.
 	// eslint-disable-next-line eqeqeq
-	if ( preferredDoc != document &&
-		( subWindow = document.defaultView ) && subWindow.top !== subWindow ) {
+	if (preferredDoc != document &&
+		(subWindow = document.defaultView) && subWindow.top !== subWindow) {
 
-		// Support: IE 11, Edge
-		if ( subWindow.addEventListener ) {
-			subWindow.addEventListener( "unload", unloadHandler, false );
+		if (subWindow.addEventListener) {
+			subWindow.addEventListener("unload", unloadHandler, false);
 
-		// Support: IE 9 - 10 only
-		} else if ( subWindow.attachEvent ) {
-			subWindow.attachEvent( "onunload", unloadHandler );
+		} else if (subWindow.attachEvent) {
+			subWindow.attachEvent("onunload", unloadHandler);
 		}
 	}
-
 	// Support: IE 8 - 11+, Edge 12 - 18+, Chrome <=16 - 25 only, Firefox <=3.6 - 31 only,
 	// Safari 4 - 5 only, Opera <=11.6 - 12.x only
 	// IE/Edge & older browsers don't support the :scope pseudo-class.

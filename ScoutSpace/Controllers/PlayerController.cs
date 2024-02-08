@@ -33,7 +33,6 @@ namespace ScoutSpace.Controllers
             return View(playerList);
         }
 
-        [HttpGet("Player/playerDetail/{id}")]
         public IActionResult PlayerDetail(int id)
         {
             Player player = new Player();

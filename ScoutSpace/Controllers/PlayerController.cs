@@ -9,7 +9,7 @@ namespace ScoutSpace.Controllers
     public class PlayerController : Controller
     {
         private readonly ILogger<PlayerController> _logger;
-        Uri baseAddress = new Uri("https://localhost:7296/api");
+        Uri baseAddress = new Uri("https://localhost:7296/api/players");
         HttpClient client;
 
         public PlayerController(ILogger<PlayerController> logger)
@@ -18,10 +18,12 @@ namespace ScoutSpace.Controllers
             client = new HttpClient();
             client.BaseAddress = baseAddress;
         }
+
+        [HttpGet]
         public IActionResult PlayerList()
         {
             List<Player> playerList = new List<Player>();
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/players").Result;
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress).Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -29,6 +31,24 @@ namespace ScoutSpace.Controllers
                 playerList = JsonConvert.DeserializeObject<List<Player>>(data);
             }
             return View(playerList);
+        }
+
+        [HttpGet("Player/playerDetail/{id}")]
+        public IActionResult PlayerDetail(int id)
+        {
+            Player player = new Player();
+            HttpResponseMessage response = client.GetAsync($"/{id}").Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                player = JsonConvert.DeserializeObject<Player>(data);
+                return View(player);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
     }
 }

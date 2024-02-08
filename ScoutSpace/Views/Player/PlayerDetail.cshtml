@@ -1,4 +1,5 @@
-﻿@using Core.Domain
+﻿@using Core.Domain.Extensions
+@using Core.Domain
 @model Player
 
 @{
@@ -17,15 +18,28 @@
         <div class="col-lg-8">
             <div class="player-info-container">
                 <!-- Plaats hier de spelerinformatie -->
-                <h2>Spelerinformatie</h2>
-                <!-- Voeg andere spelerinformatie toe -->
+                <h2>@Model.firstName @Model.lastName</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                            <div class="">
+                                <div class="fw-bold">@((DateTime.Now.Year - Model.birthDate.Year - (Model.birthDate.DayOfYear > DateTime.Now.DayOfYear ? 1 : 0))) jaar</div>
+                                <div>@Model.birthDate.ToString("dd-MM-yyyy")</div>
+                            </div>
+                        </li>
+                        <li class="list-group-item">@Model.residence</li>
+                        <li class="list-group-item">@Model.line</li>
+                        <li class="list-group-item">@Model.position.GetDisplayName()</li>
+                        <li class="list-group-item">@Model.preferedFoot</li>
+                        <li class="list-group-item">@Model.phoneNr</li>
+                        <li class="list-group-item">@Model.email</li>
+                    </ul>
             </div>
         </div>
         <!-- Teaminformatie (2/3 breedte, 1/3 hoogte) -->
         <div class="col-lg-8">
             <div class="team-info-container mt-4">
                 <!-- Plaats hier de teaminformatie -->
-                <h2>Teaminformatie</h2>
+                <h2>@Model.team.teamName</h2>
                 <!-- Voeg andere teaminformatie toe -->
             </div>
         </div>
@@ -34,7 +48,7 @@
             <div class="notes-container mt-4">
                 <!-- Plaats hier de notities -->
                 <h2>Notities</h2>
-                <!-- Voeg andere notities toe -->
+                <!-- Voeg de notities hier toe -->
             </div>
         </div>
     </div>

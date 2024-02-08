@@ -51,7 +51,7 @@
                     {
                         <tr>
                             <th scope="row">@player.playerId</th>
-                            <td><a asp-controller="Player" asp-action="PlayerDetail" asp-route-id="@player.playerId">@player.firstName</a></td>
+                            <td><a asp-area="" asp-controller="Player" asp-action="PlayerDetail" asp-route-id="@player.playerId">@player.firstName</a></td>
                             <td>@player.lastName</td>
                             <td>@(DateTime.Now.Year - player.birthDate.Year - (player.birthDate.DayOfYear> DateTime.Now.DayOfYear ? 1 : 0))</td>
                             <td>@(player.team.division.GetDisplayName())</td>

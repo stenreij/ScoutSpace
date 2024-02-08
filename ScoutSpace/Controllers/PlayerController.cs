@@ -9,7 +9,7 @@ namespace ScoutSpace.Controllers
     public class PlayerController : Controller
     {
         private readonly ILogger<PlayerController> _logger;
-        Uri baseAddress = new Uri("https://localhost:7296/api/players");
+        Uri baseAddress = new Uri("https://localhost:7296/api");
         HttpClient client;
 
         public PlayerController(ILogger<PlayerController> logger)
@@ -23,7 +23,7 @@ namespace ScoutSpace.Controllers
         public IActionResult PlayerList()
         {
             List<Player> playerList = new List<Player>();
-            HttpResponseMessage response = client.GetAsync(client.BaseAddress).Result;
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/players").Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -35,8 +35,12 @@ namespace ScoutSpace.Controllers
 
         public IActionResult PlayerDetail(int id)
         {
+            Console.WriteLine("playerdetail action called with id: " + id);
             Player player = new Player();
-            HttpResponseMessage response = client.GetAsync($"/{id}").Result;
+
+            // Construct the URL using the base address and id
+
+            HttpResponseMessage response = client.GetAsync($"{client.BaseAddress}/player/{id}").Result;
 
             if (response.IsSuccessStatusCode)
             {
@@ -46,6 +50,7 @@ namespace ScoutSpace.Controllers
             }
             else
             {
+                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
                 return NotFound();
             }
         }

@@ -17,7 +17,6 @@ CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
 CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IScoutRepo, ScoutRepo>();
 builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
 builder.Services.AddScoped<IScoutService, ScoutService>();

@@ -18,7 +18,16 @@ namespace Infrastructure
         {
             return await _context.Player
                 .Include(p => p.team)
+                .Include(p => p.notities)
                 .ToListAsync();
+        }
+
+        public async Task<Player> GetPlayerByIdAsync(int id)
+        {
+            return await _context.Player
+                .Include(p => p.team)
+                .Include(p => p.notities)
+                .FirstAsync(p => p.playerId == id);
         }
     }
 }

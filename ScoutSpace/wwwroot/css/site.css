@@ -64,6 +64,14 @@ body {
     overflow-x: hidden;
 }
 
+.card-title{
+    color: black;
+}
+
+a{
+    text-decoration: none !important;
+}
+
 @media (max-width: 575.98px) {
     .card {
         width: 90%;

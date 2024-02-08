@@ -35,5 +35,22 @@ namespace API.Controllers
                 return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van players.");
             }
         }
+
+        [HttpGet("player/{id}")]
+        public async Task<IActionResult> GetPlayerByIdAsync(int id)
+        {
+            _logger.LogInformation("GetPlayerById() aangeroepen");
+
+            try
+            {
+                var player = await _playerService.GetPlayerByIdAsync(id);
+                return Ok(player);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het ophalen van player: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van player.");
+            }
+        }
     }
 }

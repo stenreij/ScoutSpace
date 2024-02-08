@@ -16,9 +16,15 @@ namespace Core.DomainServices.Services
         {
             _playerRepo = playerRepo;
         }
+
         Task<IEnumerable<Player>> IPlayerService.GetAllPlayersAsync()
         {
             return _playerRepo.GetAllPlayersAsync();
+        }
+
+        Task<Player> IPlayerService.GetPlayerByIdAsync(int id)
+        { 
+            return _playerRepo.GetPlayerByIdAsync(id); 
         }
     }
 }

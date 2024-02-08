@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="Jouw specifieke beschrijving voor de PlayerList Page">
+    <meta name="description" content="PlayerList Page">
 
     @section scripts {
         <script defer src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -23,7 +23,8 @@
                     "language": {
                         "url": "/datatables/Dutch.json"
                     },
-                    "responsive": true
+                    "responsive": true,
+                    
                 });
             });
         </script>
@@ -31,7 +32,7 @@
 </head>
 <body>
     <div class="container mt-4">
-        <div class="table-responsive">
+        <div class="table-responsive custom-table-container">
             <table id="playerTable" class="table table-striped">
                 <thead>
                     <tr>
@@ -39,6 +40,7 @@
                         <th scope="col">Voornaam</th>
                         <th scope="col">Achternaam</th>
                         <th scope="col">Leeftijd</th>
+                        <th scope="col">Divisie/Klasse</th>
                         <th scope="col">Linie</th>
                         <th scope="col">Positie</th>
                         <th scope="col">Been</th>
@@ -51,7 +53,8 @@
                             <th scope="row">@player.playerId</th>
                             <td>@player.firstName</td>
                             <td>@player.lastName</td>
-                            <td>@(DateTime.Now.Year - player.birthDate.Year - (player.birthDate.DayOfYear > DateTime.Now.DayOfYear ? 1 : 0))</td>
+                            <td>@(DateTime.Now.Year - player.birthDate.Year - (player.birthDate.DayOfYear> DateTime.Now.DayOfYear ? 1 : 0))</td>
+                            <td>@(player.team.division.GetDisplayName())</td>
                             <td>@player.line</td>
                             <td>@(player.position.GetDisplayName())</td>
                             <td>@player.preferedFoot</td>

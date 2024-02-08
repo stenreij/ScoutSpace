@@ -60,6 +60,10 @@ body {
     max-width: 75%;
 }
 
+.custom-table-container {
+    overflow-x: hidden;
+}
+
 @media (max-width: 575.98px) {
     .card {
         width: 90%;

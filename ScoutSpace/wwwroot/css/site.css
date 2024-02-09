@@ -91,3 +91,19 @@ a {
         display: none;
     }
 }
+
+.custom-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.notes-container {
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+.custom-team-info-container {
+    width: 100%;
+}
+
+

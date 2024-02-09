@@ -68,8 +68,12 @@ body {
     color: black;
 }
 
-a{
+a {
     text-decoration: none !important;
+}
+.a-nav-link {
+    text-decoration: underline !important;
+    color: #384272f2 !important;
 }
 
 @media (max-width: 575.98px) {

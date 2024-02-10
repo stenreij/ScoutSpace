@@ -6,5 +6,6 @@ namespace Core.DomainServices.Interfaces
     {
         Task<IEnumerable<Player>> GetAllPlayersAsync();
         Task<Player> GetPlayerByIdAsync(int id);
+        Task UpdatePlayerAsync(Player player);
     }
 }

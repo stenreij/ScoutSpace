@@ -26,5 +26,10 @@ namespace Core.DomainServices.Services
         { 
             return _playerRepo.GetPlayerByIdAsync(id); 
         }
+
+        Task IPlayerService.UpdatePlayerAsync(Player player)
+        {
+            return _playerRepo.UpdatePlayerAsync(player);
+        }
     }
 }

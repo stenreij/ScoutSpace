@@ -29,5 +29,16 @@ namespace Infrastructure
                 .Include(p => p.notities)
                 .FirstAsync(p => p.playerId == id);
         }
+
+        public async Task UpdatePlayerAsync(Player player)
+        {
+            var playerToUpdate = await _context.Player.FindAsync(player.playerId);
+
+            if (playerToUpdate != null)
+            {
+                _context.Entry(playerToUpdate).CurrentValues.SetValues(player);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

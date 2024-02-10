@@ -10,5 +10,7 @@ namespace Core.DomainServices.Interfaces
     public interface IPlayerService
     {
         Task<IEnumerable<Player>> GetAllPlayersAsync();
+        Task<Player> GetPlayerByIdAsync(int id);
+        Task UpdatePlayerAsync(Player player);
     }
 }

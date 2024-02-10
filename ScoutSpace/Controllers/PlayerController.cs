@@ -18,6 +18,8 @@ namespace ScoutSpace.Controllers
             client = new HttpClient();
             client.BaseAddress = baseAddress;
         }
+
+        [HttpGet]
         public IActionResult PlayerList()
         {
             List<Player> playerList = new List<Player>();
@@ -29,6 +31,28 @@ namespace ScoutSpace.Controllers
                 playerList = JsonConvert.DeserializeObject<List<Player>>(data);
             }
             return View(playerList);
+        }
+
+        public IActionResult PlayerDetail(int id)
+        {
+            Console.WriteLine("playerdetail action called with id: " + id);
+            Player player = new Player();
+
+            // Construct the URL using the base address and id
+
+            HttpResponseMessage response = client.GetAsync($"{client.BaseAddress}/player/{id}").Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                player = JsonConvert.DeserializeObject<Player>(data);
+                return View(player);
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                return NotFound();
+            }
         }
     }
 }

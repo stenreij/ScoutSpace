@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ScoutSpaceDbContext))]
-    [Migration("20240206163546_InitialMigration")]
+    [Migration("20240210113340_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />

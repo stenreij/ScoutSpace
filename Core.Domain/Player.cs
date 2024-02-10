@@ -18,6 +18,7 @@ namespace Core.Domain
         public Line? line { get; set; }
         public Position? position { get; set; }
         public Foot? preferedFoot { get; set; }
+        public int? teamId { get; set; }
         public Team? team { get; set; }
         public ICollection<Notitie>? notities { get; set; }
     }

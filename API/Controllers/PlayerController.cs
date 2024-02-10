@@ -35,5 +35,53 @@ namespace API.Controllers
                 return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van players.");
             }
         }
+
+        [HttpGet("player/{id}")]
+        public async Task<IActionResult> GetPlayerByIdAsync(int id)
+        {
+            _logger.LogInformation("GetPlayerById() aangeroepen");
+
+            try
+            {
+                var player = await _playerService.GetPlayerByIdAsync(id);
+                return Ok(player);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het ophalen van player: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van player.");
+            }
+        }
+
+        [HttpPut("player/{id}")]
+        public async Task<IActionResult> UpdatePlayerAsync(int id, [FromBody] Player updatedPlayer)
+        {
+            _logger.LogInformation($"UpdatePlayerAsync() aangeroepen voor speler met ID: {id}");
+
+            if (updatedPlayer == null)
+            {
+                return BadRequest();
+            }
+
+            updatedPlayer.playerId = id;
+
+            try
+            {
+                await _playerService.UpdatePlayerAsync(updatedPlayer);
+
+                if(updatedPlayer == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(updatedPlayer);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het bijwerken van de speler: {ex.Message}");
+                return NotFound($"Speler met ID {id} niet gevonden.");
+            }
+        }
+
     }
 }

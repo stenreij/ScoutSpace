@@ -50,6 +50,7 @@ body {
 /* Cards HomePage*/
 .card-hover {
     transition: transform 0.5s ease;
+    cursor: pointer;
 }
 
 .card-hover:hover {
@@ -58,6 +59,27 @@ body {
 
 .card-img-top{
     max-width: 75%;
+}
+
+.custom-table-container {
+    overflow-x: hidden;
+}
+
+.card-title{
+    color: black;
+}
+
+.card:hover {
+    cursor: pointer;
+    border: 2px solid #27315ef2;
+}
+
+a {
+    text-decoration: none !important;
+}
+.a-nav-link {
+    text-decoration: underline !important;
+    color: #384272f2 !important;
 }
 
 @media (max-width: 575.98px) {
@@ -75,3 +97,19 @@ body {
         display: none;
     }
 }
+
+.custom-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.notes-container {
+    width: 100%;
+    margin-bottom: 0px;
+}
+
+.custom-team-info-container {
+    width: 100%;
+}
+
+

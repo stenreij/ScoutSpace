@@ -89,5 +89,64 @@ namespace ScoutSpace.Controllers
                 return NotFound();
             }
         }
+
+        [HttpPost]
+        public IActionResult PlayerUpdate(Player updatedPlayer)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var id = updatedPlayer.playerId;
+                    HttpResponseMessage getPlayerResponse = client.GetAsync($"{client.BaseAddress}/player/{updatedPlayer.playerId}").Result;
+
+                    if (!getPlayerResponse.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine($"Error: {getPlayerResponse.StatusCode} - {getPlayerResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Error retrieving player data";
+                        return View();
+                    }
+
+                    string playerData = getPlayerResponse.Content.ReadAsStringAsync().Result;
+                    Player currentPlayer = JsonConvert.DeserializeObject<Player>(playerData);
+
+                    if(currentPlayer == null)
+                    {
+                        return NotFound();
+                    }
+
+                    currentPlayer.firstName = updatedPlayer.firstName;
+                    currentPlayer.lastName = updatedPlayer.lastName;
+                    currentPlayer.birthDate = updatedPlayer.birthDate;
+                    currentPlayer.residence = updatedPlayer.residence;
+                    currentPlayer.email = updatedPlayer.email;
+                    currentPlayer.phoneNr = updatedPlayer.phoneNr;
+                    currentPlayer.line = updatedPlayer.line;
+                    currentPlayer.position = updatedPlayer.position;
+                    currentPlayer.preferedFoot = updatedPlayer.preferedFoot;
+                    currentPlayer.teamId = updatedPlayer.teamId;
+
+                    HttpResponseMessage updateResponse = client.PutAsJsonAsync($"{client.BaseAddress}/player/{updatedPlayer.playerId}", currentPlayer).Result;
+
+                    if (updateResponse.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("PlayerList");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {getPlayerResponse.StatusCode} - {getPlayerResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Error retrieving player data";
+                        return View();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return View();
+            }
+
+            return RedirectToAction("PlayerList"); 
+        }
     }
 }

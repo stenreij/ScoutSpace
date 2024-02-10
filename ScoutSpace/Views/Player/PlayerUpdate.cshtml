@@ -15,61 +15,71 @@
 <body>
     <div class="container mt-4">
         <h2>Update speler: @Model.firstName @Model.lastName</h2>
-        <form action="/Player/Update" method="post">
-            <input type="hidden" name="id" value="@Model.playerId" />
+        <form action="/Player/PlayerUpdate" method="post">
+            <input type="hidden" name="playerId" value="@Model.playerId" />
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="firstName" class="form-label">Voornaam</label>
+                        <label for="firstName" class="form-label">Voornaam*</label>
                         <input type="text" class="form-control" id="firstName" name="firstName" value="@Model.firstName" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="lastName" class="form-label">Achternaam</label>
+                        <label for="lastName" class="form-label">Achternaam*</label>
                         <input type="text" class="form-control" id="lastName" name="lastName" value="@Model.lastName" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="birthDate" class="form-label">Geboortedatum</label>
+                        <label for="birthDate" class="form-label">Geboortedatum*</label>
                         <input type="date" class="form-control" id="birthDate" name="birthDate" value="@Model.birthDate.ToString("yyyy-MM-dd")" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="@Model.email" required>
+                        <input type="email" class="form-control" id="email" name="email" value="@Model.email" data-val="true" data-val-required="Email is verplicht">
+                        <span class="field-validation-valid" data-valmsg-for="email" data-valmsg-replace="true"></span>
                     </div>
 
                     <div class="mb-3">
                         <label for="residence" class="form-label">Woonplaats</label>
-                        <input type="text" class="form-control" id="residence" name="residence" value="@Model.residence" required>
+                        <input type="text" class="form-control" id="residence" name="residence" value="@Model.residence" data-val="true" data-val-required="Woonplaats is verplicht">
+                        <span class="field-validation-valid" data-valmsg-for="residence" data-valmsg-replace="true"></span>
                     </div>
 
                     <div class="mb-3">
                         <label for="phoneNr" class="form-label">Telefoon nr.</label>
-                        <input type="number" class="form-control" id="phoneNr" name="phoneNr" value="@Model.phoneNr" required>
+                        <input type="number" class="form-control" id="phoneNr" name="phoneNr" value="@Model.phoneNr" data-val="true" data-val-required="Telefoon nr. is verplicht">
+                        <span class="field-validation-valid" data-valmsg-for="phoneNr" data-valmsg-replace="true"></span>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="line" class="form-label">Linie</label>
-                        <select asp-for="line" class="form-control" asp-items="Html.GetEnumSelectList<Line>()"></select>
+                        <select asp-for="line" class="form-control" asp-items="Html.GetEnumSelectList<Line>()">
+                            <option value="">-- Selecteer Linie --</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="position" class="form-label">Positie</label>
-                        <select asp-for="position" class="form-control" asp-items="Html.GetEnumSelectList<Position>()"></select>
+                        <select asp-for="position" class="form-control" asp-items="Html.GetEnumSelectList<Position>()">
+                            <option value="">-- Selecteer Positie --</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="preferedFoot" class="form-label">Been</label>
-                        <select asp-for="preferedFoot" class="form-control" asp-items="Html.GetEnumSelectList<Foot>()"></select>
+                        <select asp-for="preferedFoot" class="form-control" asp-items="Html.GetEnumSelectList<Foot>()">
+                            <option value="">-- Selecteer Been --</option>
+                        </select>
                     </div>
 
                     <div class="mb-3">
                         <label for="teamId" class="form-label">Team</label>
                         <select asp-for="teamId" class="form-control">
+                            <option value="">-- Selecteer Team --</option>
                             @if (ViewBag.Teams != null)
                             {
                                 foreach (var team in ViewBag.Teams)
@@ -79,9 +89,12 @@
                             }
                             else
                             {
-                                <option value="">No teams available</option>
+                                <option value="" disabled>No teams available</option>
                             }
                         </select>
+                    </div>
+                    <div>
+                        <p>Velden met * zijn verplicht.</p>
                     </div>
                 </div>
             </div>

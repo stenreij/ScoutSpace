@@ -50,6 +50,7 @@ body {
 /* Cards HomePage*/
 .card-hover {
     transition: transform 0.5s ease;
+    cursor: pointer;
 }
 
 .card-hover:hover {
@@ -66,6 +67,11 @@ body {
 
 .card-title{
     color: black;
+}
+
+.card:hover {
+    cursor: pointer;
+    border: 2px solid #27315ef2;
 }
 
 a {

@@ -83,5 +83,28 @@ namespace API.Controllers
             }
         }
 
+        [HttpDelete("player/{id}")]
+        public async Task<IActionResult> DeletePlayerAsync(int id)
+        {
+            _logger.LogInformation($"DeletePlayerAsync() aangeroepen voor speler met ID: {id}");
+
+            try
+            {
+                var player = await _playerService.GetPlayerByIdAsync(id);
+                if(player  == null)
+                {
+                    _logger.LogWarning($"Speler met id {id} niet gevonden");
+                    return NotFound("Speler met dit ID is niet gevonden.");
+                }
+
+                await _playerService.DeletePlayerAsync(id);
+                return Ok("Speler met ID " + id + " verwijderd");
+            }
+            catch(Exception ex) 
+            {
+                _logger.LogError($"Fout bij het verwijderen van de speler: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het verwijderen van de speler.");
+            }
+        }
     }
 }

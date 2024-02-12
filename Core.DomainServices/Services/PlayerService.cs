@@ -31,5 +31,10 @@ namespace Core.DomainServices.Services
         {
             return _playerRepo.UpdatePlayerAsync(player);
         }
+
+        Task IPlayerService.DeletePlayerAsync(int id)
+        {
+            return _playerRepo.DeletePlayerAsync(id);
+        }
     }
 }

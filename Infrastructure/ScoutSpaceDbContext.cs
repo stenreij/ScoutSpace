@@ -16,5 +16,16 @@ namespace Infrastructure
         public DbSet<Player> Player { get; set; }
         public DbSet<Team> Team { get; set; }
         public DbSet<Notitie> Notitie { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            // Voeg hier je andere configuraties toe
+
+            // Configureer de relatie tussen Player en Notitie
+            modelBuilder.Entity<Player>()
+                .HasMany(p => p.notities)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
+        }
     }
 }

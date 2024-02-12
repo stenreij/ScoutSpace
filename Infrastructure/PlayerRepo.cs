@@ -40,5 +40,16 @@ namespace Infrastructure
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task DeletePlayerAsync(int id)
+        {
+            var playerToDelete = await _context.Player.FindAsync(id);
+
+            if (playerToDelete != null)
+            {
+                _context.Remove(playerToDelete);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
 }

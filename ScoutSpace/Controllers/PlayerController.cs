@@ -39,8 +39,6 @@ namespace ScoutSpace.Controllers
             Console.WriteLine("playerdetail action called with id: " + id);
             Player player = new Player();
 
-            // Construct the URL using the base address and id
-
             HttpResponseMessage response = client.GetAsync($"{client.BaseAddress}/player/{id}").Result;
 
             if (response.IsSuccessStatusCode)
@@ -147,6 +145,30 @@ namespace ScoutSpace.Controllers
             }
 
             return RedirectToAction("PlayerList"); 
+        }
+
+        [HttpPost]
+        public IActionResult PlayerDelete(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = client.DeleteAsync($"{client.BaseAddress}/player/{id}").Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("PlayerList");
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return View();
+            }
         }
     }
 }

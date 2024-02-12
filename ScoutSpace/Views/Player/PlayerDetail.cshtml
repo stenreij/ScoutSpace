@@ -102,9 +102,9 @@
                 <div class="">
                     <h2 class="text-center">Notities</h2>
                     <div class="row">
-                        @foreach (var notitie in Model.notities)
-                        {
-                            <div class="col-md-6">
+                        <div class="col-md-6">
+                            @foreach (var notitie in Model.notities.Where(n => n.notitieId % 2 != 0))
+                            {
                                 <div class="card notes mb-3" onclick="showDetails(this)">
                                     <div class="card-body">
                                         <h5 class="card-title">@notitie.title</h5>
@@ -117,8 +117,25 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        }
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            @foreach (var notitie in Model.notities.Where(n => n.notitieId % 2 == 0))
+                            {
+                                <div class="card notes mb-3" onclick="showDetails(this)">
+                                    <div class="card-body">
+                                        <h5 class="card-title">@notitie.title</h5>
+                                        <div class="details" style="display: none;">
+                                            <p class="card-text">@notitie.description</p>
+                                            <div class="">
+                                                <button class="btn btn-primary me-2">Update</button>
+                                                <button class="btn btn-danger">Verwijder</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

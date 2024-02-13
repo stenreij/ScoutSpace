@@ -1,0 +1,137 @@
+﻿@using Core.Domain.Extensions
+@using Core.Domain
+@model Player
+
+@{
+    ViewData["Title"] = "PlayerAdd Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="PlayerAdd Page">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>Voeg een nieuwe speler toe</h2>
+
+        <div class="mb-3">
+            <button id="addFormButton" class="btn btn-primary" onclick="showForm('addForm')">Voeg een enkele speler toe</button>
+            <button id="imageUploadFormButton" class="btn btn-primary" onclick="showForm('imageUploadForm')">Voeg toe dmv foto wedstrijdformulier</button>
+        </div>
+
+        <form id="addForm" action="/Player/PlayerAdd" method="post">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">Voornaam*</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Achternaam*</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="birthDate" class="form-label">Geboortedatum*</label>
+                        <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="residence" class="form-label">Woonplaats</label>
+                        <input type="text" class="form-control" id="residence" name="residence">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phoneNr" class="form-label">Telefoon nr.</label>
+                        <input type="number" class="form-control" id="phoneNr" name="phoneNr">
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="line" class="form-label">Linie</label>
+                        <select asp-for="line" class="form-control" asp-items="Html.GetEnumSelectList<Line>()">
+                            <option value="">-- Selecteer Linie --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="position" class="form-label">Positie</label>
+                        <select asp-for="position" class="form-control" asp-items="Html.GetEnumSelectList<Position>()">
+                            <option value="">-- Selecteer Positie --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="preferedFoot" class="form-label">Been</label>
+                        <select asp-for="preferedFoot" class="form-control" asp-items="Html.GetEnumSelectList<Foot>()">
+                            <option value="">-- Selecteer Been --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="teamId" class="form-label">Team</label>
+                        <select asp-for="teamId" class="form-control">
+                            <option value="">-- Selecteer Team --</option>
+                            @if (ViewBag.Teams != null)
+                            {
+                                foreach (var team in ViewBag.Teams)
+                                {
+                                    <option value="@team.teamId">@team.teamName</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="" disabled>No teams available</option>
+                            }
+                        </select>
+                    </div>                 
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Voeg toe</button>
+        </form>
+
+        <form id="imageUploadForm" action="/Player/ProcessImage" method="post" style="display: none;">
+            <button type="submit" class="btn btn-primary">Upload Afbeelding</button>
+        </form>
+    </div>
+
+    <script>
+        var initialForm = '@ViewBag.InitialForm';
+        if (initialForm === 'imageUploadForm') {
+            document.getElementById('addFormButton').style.display = 'block';
+            document.getElementById('imageUploadFormButton').style.display = 'none';
+        } else {
+            document.getElementById('addFormButton').style.display = 'none';
+            document.getElementById('imageUploadFormButton').style.display = 'block';
+        }
+
+        function showForm(formId) {
+            var forms = document.getElementsByTagName('form');
+            for (var i = 0; i < forms.length; i++) {
+                forms[i].style.display = 'none';
+            }
+
+            document.getElementById(formId).style.display = 'block';
+
+            if (formId === 'addForm') {
+                document.getElementById('addFormButton').style.display = 'none';
+                document.getElementById('imageUploadFormButton').style.display = 'block';
+            } else if (formId === 'imageUploadForm') {
+                document.getElementById('addFormButton').style.display = 'block';
+                document.getElementById('imageUploadFormButton').style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

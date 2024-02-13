@@ -170,5 +170,78 @@ namespace ScoutSpace.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public IActionResult PlayerAdd()
+        {
+            try
+            {
+                HttpResponseMessage teamsResponse = client.GetAsync($"{client.BaseAddress}/teams").Result;
+
+                if (teamsResponse.IsSuccessStatusCode)
+                {
+                    string teamsData = teamsResponse.Content.ReadAsStringAsync().Result;
+                    var teams = JsonConvert.DeserializeObject<List<Team>>(teamsData);
+
+                    ViewBag.Teams = teams;
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {teamsResponse.StatusCode} - {teamsResponse.ReasonPhrase}");
+                    return NotFound();
+                }
+
+                return View();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return View();
+            }
+        }
+        [HttpPost]
+        public IActionResult PlayerAdd(Player newPlayer)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    HttpResponseMessage teamsResponse = client.GetAsync($"{client.BaseAddress}/teams").Result;
+
+                    if (!teamsResponse.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine($"Error: {teamsResponse.StatusCode} - {teamsResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Error retrieving team data";
+                        return View();
+                    }
+
+                    string teamsData = teamsResponse.Content.ReadAsStringAsync().Result;
+                    var teams = JsonConvert.DeserializeObject<List<Team>>(teamsData);
+
+                    ViewBag.Teams = teams;
+
+                    HttpResponseMessage addPlayerResponse = client.PostAsJsonAsync($"{client.BaseAddress}/player", newPlayer).Result;
+
+                    if (addPlayerResponse.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("PlayerList");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {addPlayerResponse.StatusCode} - {addPlayerResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Error adding player";
+                        return View();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return View();
+            }
+
+            return View();
+        }
+
     }
 }

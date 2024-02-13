@@ -69,7 +69,7 @@ namespace API.Controllers
             {
                 await _playerService.UpdatePlayerAsync(updatedPlayer);
 
-                if(updatedPlayer == null)
+                if (updatedPlayer == null)
                 {
                     return NotFound();
                 }
@@ -91,7 +91,7 @@ namespace API.Controllers
             try
             {
                 var player = await _playerService.GetPlayerByIdAsync(id);
-                if(player  == null)
+                if (player == null)
                 {
                     _logger.LogWarning($"Speler met id {id} niet gevonden");
                     return NotFound("Speler met dit ID is niet gevonden.");
@@ -100,11 +100,28 @@ namespace API.Controllers
                 await _playerService.DeletePlayerAsync(id);
                 return Ok("Speler met ID " + id + " verwijderd");
             }
-            catch(Exception ex) 
+            catch (Exception ex)
             {
                 _logger.LogError($"Fout bij het verwijderen van de speler: {ex.Message}");
                 return StatusCode(500, "Er is een interne fout opgetreden bij het verwijderen van de speler.");
             }
         }
+        [HttpPost("player")]
+        public async Task <IActionResult> AddPlayerAsync([FromBody] Player player)
+        {
+            _logger.LogInformation($"AddPlayerAsync() aangeroepen");
+
+            try
+            {
+                await _playerService.AddPlayerAsync(player);
+                return Ok(player);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Fout bij het toevoegen van de speler: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het toevoegen van een speler.");
+            }
+        }
+        
     }
 }

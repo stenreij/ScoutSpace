@@ -51,5 +51,11 @@ namespace Infrastructure
                 await _context.SaveChangesAsync();
             }
         }
+
+        public async Task AddPlayerAsync(Player player)
+        {
+            await _context.Player.AddAsync(player);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace Core.DomainServices.Interfaces
         Task<Player> GetPlayerByIdAsync(int id);
         Task UpdatePlayerAsync(Player player);
         Task DeletePlayerAsync(int id);
+        Task AddPlayerAsync(Player player);
     }
 }

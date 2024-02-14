@@ -9,7 +9,7 @@ html {
 }
 
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cf;
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cff;
 }
 
 html {
@@ -26,7 +26,7 @@ body {
 /* Navbar */
 .navbar {
     background-color: transparent !important;
-    background: linear-gradient(to left, #27315ef2, #090c27f2) !important;
+    background: #12173bff !important;
     border: black !important;
 }
 
@@ -39,7 +39,8 @@ body {
 }
 
 .navbar-light .navbar-nav .dropdown-menu {
-background: linear-gradient(to left, #27315ef2, #090c27f2) !important;
+    background: #12173bff !important;
+    border: none;
 }
 
 .navbar-light .navbar-nav .dropdown-menu .dropdown-item {
@@ -48,16 +49,16 @@ color: white !important;
 
 .navbar-light .navbar-nav .dropdown-menu .dropdown-item:hover,
 .navbar-light .navbar-nav .dropdown-menu .dropdown-item:focus {
-    background-color: #090c27f2;
+    background-color: #27315ef2 !important;
 }
 
 /* Footer */
 .footer {
-background: linear-gradient(to left, #27315ef2, #090c27f2) !important;
-text-align: center;
-margin-left: auto;
-margin-right: auto;
-color: white !important;
+    background: #12173bff !important;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    color: white !important;
 }
 
 /* Cards HomePage*/
@@ -126,7 +127,7 @@ a {
 }
 
 .addButton {
-    background-color: #394682f2 !important;
+    background-color: #314087f2 !important;
     border: none;
 }
 

@@ -12,7 +12,7 @@
     <meta name="description" content="PlayerAdd Page">
 </head>
 <body>
-    <div class="container mt-4">
+    <div class="container mt-4 mb-1">
         <h2>Voeg een nieuwe speler toe</h2>
 
         <div class="mb-3">
@@ -52,6 +52,10 @@
                     <div class="mb-3">
                         <label for="phoneNr" class="form-label">Telefoon nr.</label>
                         <input type="number" class="form-control" id="phoneNr" name="phoneNr">
+                    </div>
+
+                    <div class="mb-2">
+                        <label>Velden met * zijn verplicht.</label>
                     </div>
                 </div>
 
@@ -101,8 +105,19 @@
         </form>
 
         <form id="imageUploadForm" action="/Player/ProcessImage" method="post" style="display: none;">
-            <button type="submit" class="btn btn-primary addButton">Upload Afbeelding</button>
+            <div class="mb-3">
+                <label for="imageUpload" class="form-label">Selecteer afbeelding</label>
+                <div class="input-group" style="width: 50%;">
+                    <input type="file" class="form-control" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this);">
+                    <button type="button" class="btn btn-outline-secondary" onclick="removeImage()">Verwijder Afbeelding</button>
+                </div>
+            </div>
+            <div id="imagePreview" style="display: none;">
+                <img id="preview" alt="Voorbeeld afbeelding" class="img-fluid" style="max-height: 300px; width: auto;">
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Upload Afbeelding</button>
         </form>
+
     </div>
 
     <script>
@@ -130,6 +145,32 @@
                 document.getElementById('addFormButton').style.display = 'block';
                 document.getElementById('imageUploadFormButton').style.display = 'none';
             }
+        }
+
+        function previewImage(input) {
+            var preview = document.getElementById('preview');
+            var imagePreview = document.getElementById('imagePreview');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function removeImage() {
+            var preview = document.getElementById('preview');
+            var imagePreview = document.getElementById('imagePreview');
+            var fileInput = document.getElementById('imageUpload');
+
+            preview.src = '';
+            imagePreview.style.display = 'none';
+            fileInput.value = ''; 
         }
     </script>
 </body>

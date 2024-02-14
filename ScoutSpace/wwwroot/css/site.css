@@ -25,7 +25,7 @@ body {
 
 /* Navbar */
 .navbar {
-    background-color: !important;
+    background-color: transparent !important;
     background: linear-gradient(to left, #27315ef2, #090c27f2) !important;
     border: black !important;
 }
@@ -38,13 +38,26 @@ body {
     color: white !important;
 }
 
+.navbar-light .navbar-nav .dropdown-menu {
+background: linear-gradient(to left, #27315ef2, #090c27f2) !important;
+}
+
+.navbar-light .navbar-nav .dropdown-menu .dropdown-item {
+color: white !important;
+}
+
+.navbar-light .navbar-nav .dropdown-menu .dropdown-item:hover,
+.navbar-light .navbar-nav .dropdown-menu .dropdown-item:focus {
+    background-color: #090c27f2;
+}
+
 /* Footer */
 .footer {
-    background: linear-gradient(to left, #27315ef2, #090c27f2) !important;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-    color: white !important;
+background: linear-gradient(to left, #27315ef2, #090c27f2) !important;
+text-align: center;
+margin-left: auto;
+margin-right: auto;
+color: white !important;
 }
 
 /* Cards HomePage*/
@@ -110,4 +123,17 @@ a {
 
 .custom-team-info-container {
     width: 100%;
+}
+
+.addButton {
+    background-color: #394682f2 !important;
+    border: none;
+}
+
+.addButton:hover {
+    background-color: #27315ef2 !important;
+}
+
+.addButton:focus {
+    box-shadow: #4657a5e5 !important;
 }

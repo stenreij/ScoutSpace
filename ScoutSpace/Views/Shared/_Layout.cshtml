@@ -25,8 +25,14 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Team" asp-action="TeamList">Teams</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Player" asp-action="PlayerList">Spelers</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="spelerDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Speler
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="spelerDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Player" asp-action="PlayerList">Spelerlijst</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Player" asp-action="PlayerAdd">Speler toevoegen</a></li>
+                            </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Scout" asp-action="ScoutList">Scouts</a>
@@ -64,5 +70,22 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
+    <script>
+        // JavaScript om het submenu direct te tonen bij hover
+        var dropdown = document.querySelector('.nav-item.dropdown');
+        var dropdownToggle = document.querySelector('.nav-link.dropdown-toggle');
+        var dropdownMenu = document.querySelector('.dropdown-menu');
+
+        dropdown.addEventListener('mouseover', function () {
+            dropdownToggle.setAttribute('aria-expanded', 'true');
+            dropdownMenu.classList.add('show');
+        });
+
+        dropdown.addEventListener('mouseout', function () {
+            dropdownToggle.setAttribute('aria-expanded', 'false');
+            dropdownMenu.classList.remove('show');
+        });
+    </script>
 </body>
 </html>

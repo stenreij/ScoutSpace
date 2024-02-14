@@ -10,15 +10,14 @@
 <html>
 <head>
     <meta name="description" content="PlayerAdd Page">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
 </head>
 <body>
     <div class="container mt-4">
         <h2>Voeg een nieuwe speler toe</h2>
 
         <div class="mb-3">
-            <button id="addFormButton" class="btn btn-primary" onclick="showForm('addForm')">Voeg een enkele speler toe</button>
-            <button id="imageUploadFormButton" class="btn btn-primary" onclick="showForm('imageUploadForm')">Voeg toe dmv foto wedstrijdformulier</button>
+            <button id="addFormButton" class="btn btn-primary addButton" onclick="showForm('addForm')">Voeg een enkele speler toe</button>
+            <button id="imageUploadFormButton" class="btn btn-primary addButton" onclick="showForm('imageUploadForm')">Voeg toe dmv foto wedstrijdformulier</button>
         </div>
 
         <form id="addForm" action="/Player/PlayerAdd" method="post">
@@ -98,11 +97,11 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Voeg toe</button>
+            <button type="submit" class="btn btn-primary addButton">Voeg toe</button>
         </form>
 
         <form id="imageUploadForm" action="/Player/ProcessImage" method="post" style="display: none;">
-            <button type="submit" class="btn btn-primary">Upload Afbeelding</button>
+            <button type="submit" class="btn btn-primary addButton">Upload Afbeelding</button>
         </form>
     </div>
 

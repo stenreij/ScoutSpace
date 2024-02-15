@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ScoutSpace.Models;
 using System.Diagnostics;
+using System.Text.RegularExpressions;
+using Tesseract;
 
 namespace ScoutSpace.Controllers
 {
@@ -241,6 +243,88 @@ namespace ScoutSpace.Controllers
             }
 
             return View();
+        }
+
+        //TRYING TO CONVERT IMAGE TO TEXT
+        [HttpPost]
+        public IActionResult ProcessImage(IFormFile imageUpload)
+        {
+            if (imageUpload != null && imageUpload.Length > 0)
+            {
+                try
+                {
+                    // Voer OCR uit om alleen de kop/header te extraheren
+                    string extractedHeader = ExtractHeader(imageUpload);
+
+                    // Stel de ViewBag in met de geëxtraheerde kop/header
+                    ViewBag.ExtractedText = extractedHeader;
+
+                    return View("ExtractedText");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error: {ex.Message}");
+                    return RedirectToAction("PlayerAdd");
+                }
+            }
+
+            return View();
+        }
+
+        private string ExtractHeader(IFormFile imageUpload)
+        {
+            using (var stream = imageUpload.OpenReadStream())
+            {
+                // Gebruik een OCR-bibliotheek om alleen de kop/header te extraheren
+                string extractedText = YourOCRFunction(stream);
+
+                // Splits de tekst op basis van regelovergangen
+                string[] lines = extractedText.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+
+                // Neem alleen de eerste twee regels (de kop/header)
+                string extractedHeader = string.Join("\n", lines.Take(2));
+
+                return extractedHeader;
+            }
+        }
+
+        private string YourOCRFunction(Stream imageStream)
+        {
+            try
+            {
+                using (var engine = new TesseractEngine(@"tessdata", "eng", EngineMode.Default))
+                {
+                    using (var img = Pix.LoadFromMemory(ReadStream(imageStream)))
+                    {
+                        using (var page = engine.Process(img))
+                        {
+                            // Haal de ruwe geëxtraheerde tekst op
+                            string rawText = page.GetText();
+
+                            // Schrijf de ruwe tekst naar de console om te inspecteren
+                            Console.WriteLine("Raw Text:");
+                            Console.WriteLine(rawText);
+
+                            // Retourneer de ruwe tekst
+                            return rawText;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during OCR processing: {ex.Message}");
+                throw;
+            }
+        }
+
+        private byte[] ReadStream(Stream stream)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                stream.CopyTo(ms);
+                return ms.ToArray();
+            }
         }
 
     }

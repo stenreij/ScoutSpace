@@ -254,10 +254,9 @@ namespace ScoutSpace.Controllers
                 try
                 {
                     // Voer OCR uit om alleen de kop/header te extraheren
-                    string extractedHeader = ExtractHeader(imageUpload);
-
-                    // Stel de ViewBag in met de geëxtraheerde kop/header
-                    ViewBag.ExtractedText = extractedHeader;
+                    var (extractedHeader, extractedBody) = ExtractHeaderAndBody(imageUpload);
+                    ViewBag.ExtractedHeader = extractedHeader;
+                    ViewBag.ExtractedBody = extractedBody;
 
                     return View("ExtractedText");
                 }
@@ -271,7 +270,7 @@ namespace ScoutSpace.Controllers
             return View();
         }
 
-        private string ExtractHeader(IFormFile imageUpload)
+        private (string header, string body) ExtractHeaderAndBody(IFormFile imageUpload)
         {
             using (var stream = imageUpload.OpenReadStream())
             {
@@ -279,12 +278,33 @@ namespace ScoutSpace.Controllers
                 string extractedText = YourOCRFunction(stream);
 
                 // Splits de tekst op basis van regelovergangen
-                string[] lines = extractedText.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] lines = extractedText.Split(new[] { '\r', '\n' }, StringSplitOptions.None);
 
-                // Neem alleen de eerste twee regels (de kop/header)
-                string extractedHeader = string.Join("\n", lines.Take(2));
+                // Neem de eerste regel (de kop/header)
+                string extractedHeader = lines.FirstOrDefault();
+                extractedHeader = extractedHeader.Replace("Thuis:", "");
+                extractedHeader = extractedHeader.Replace("Uit:", "");
 
-                return extractedHeader;
+
+                // Neem alle regels behalve de eerste regel (de kop/header)
+                string extractedBody = string.Join("\n", lines.Skip(1).Select(line => line.Trim()));
+
+                // Vervang meerdere spaties door een enkele spatie
+                extractedBody = Regex.Replace(extractedBody, @"\s+", " ");
+
+                // Voeg een extra regelovergang toe na elk scheidingsteken om elke speler op een nieuwe regel te plaatsen
+                extractedBody = extractedBody.Replace("] ", "] \n ");
+
+                // Filter regels met 1 of 2 tekens uit
+                extractedBody = string.Join(" \n ", extractedBody.Split('\n').Where(line => line.Length > 2));
+
+                // Filter het woord "Man" uit de tekst
+                extractedBody = extractedBody.Replace("Man", "");
+                extractedBody = extractedBody.Replace("[", "");
+                extractedBody = extractedBody.Replace("]", "");
+
+
+                return (extractedHeader, extractedBody);
             }
         }
 

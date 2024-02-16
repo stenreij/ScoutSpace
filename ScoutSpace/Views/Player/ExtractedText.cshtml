@@ -5,5 +5,9 @@
 <h2>Extracted Text</h2>
 
 <p>
-    @ViewBag.ExtractedText
+    @ViewBag.ExtractedHeader
+</p>
+
+<p>
+    @Html.Raw(ViewBag.ExtractedBody.Replace("\n", "<br>"))
 </p>

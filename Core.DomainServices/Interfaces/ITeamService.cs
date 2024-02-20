@@ -10,5 +10,6 @@ namespace Core.DomainServices.Interfaces
     public interface ITeamService
     {
         Task<IEnumerable<Team>> GetAllTeamsAsync();
+        Task<Team> GetTeamByIdAsync(int id);
     }
 }

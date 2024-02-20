@@ -19,5 +19,12 @@ namespace Infrastructure
             return await _context.Team
                 .ToListAsync();
         }
+
+        public async Task<Team> GetTeamByIdAsync(int id)
+        {
+            return await _context.Team
+                .FirstAsync(t => t.teamId == id);
+        }
+
     }
 }

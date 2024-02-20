@@ -1,0 +1,177 @@
+﻿@using Core.Domain.Extensions
+@using Core.Domain
+@model Player
+
+@{
+    ViewData["Title"] = "PlayerAdd Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="PlayerAdd Page">
+</head>
+<body>
+    <div class="container mt-4 mb-1">
+        <h2>Voeg een nieuwe speler toe</h2>
+
+        <div class="mb-3">
+            <button id="addFormButton" class="btn btn-primary addButton" onclick="showForm('addForm')">Voeg een enkele speler toe</button>
+            <button id="imageUploadFormButton" class="btn btn-primary addButton" onclick="showForm('imageUploadForm')">Voeg toe dmv foto wedstrijdformulier</button>
+        </div>
+
+        <form id="addForm" action="/Player/PlayerAdd" method="post">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="firstName" class="form-label">Voornaam*</label>
+                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="lastName" class="form-label">Achternaam*</label>
+                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="birthDate" class="form-label">Geboortedatum*</label>
+                        <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="residence" class="form-label">Woonplaats</label>
+                        <input type="text" class="form-control" id="residence" name="residence">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phoneNr" class="form-label">Telefoon nr.</label>
+                        <input type="number" class="form-control" id="phoneNr" name="phoneNr">
+                    </div>
+
+                    <div class="mb-2">
+                        <label>Velden met * zijn verplicht.</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="line" class="form-label">Linie</label>
+                        <select asp-for="line" class="form-control" asp-items="Html.GetEnumSelectList<Line>()">
+                            <option value="">-- Selecteer Linie --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="position" class="form-label">Positie</label>
+                        <select asp-for="position" class="form-control" asp-items="Html.GetEnumSelectList<Position>()">
+                            <option value="">-- Selecteer Positie --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="preferedFoot" class="form-label">Been</label>
+                        <select asp-for="preferedFoot" class="form-control" asp-items="Html.GetEnumSelectList<Foot>()">
+                            <option value="">-- Selecteer Been --</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="teamId" class="form-label">Team</label>
+                        <select asp-for="teamId" class="form-control">
+                            <option value="">-- Selecteer Team --</option>
+                            @if (ViewBag.Teams != null)
+                            {
+                                foreach (var team in ViewBag.Teams)
+                                {
+                                    <option value="@team.teamId">@team.teamName</option>
+                                }
+                            }
+                            else
+                            {
+                                <option value="" disabled>No teams available</option>
+                            }
+                        </select>
+                    </div>                 
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary addButton">Voeg toe</button>
+        </form>
+
+        <form id="imageUploadForm" action="/Player/ProcessImage" method="post" style="display: none;">
+            <div class="mb-3">
+                <label for="imageUpload" class="form-label">Selecteer afbeelding</label>
+                <div class="input-group" style="width: 50%;">
+                    <input type="file" class="form-control" id="imageUpload" name="imageUpload" accept="image/*" onchange="previewImage(this);">
+                    <button type="button" class="btn btn-outline-secondary" onclick="removeImage()">Verwijder Afbeelding</button>
+                </div>
+            </div>
+            <div id="imagePreview" style="display: none;">
+                <img id="preview" alt="Voorbeeld afbeelding" class="img-fluid" style="max-height: 300px; width: auto;">
+            </div>
+            <button type="submit" class="btn btn-primary mt-2">Upload Afbeelding</button>
+        </form>
+
+    </div>
+
+    <script>
+        var initialForm = '@ViewBag.InitialForm';
+        if (initialForm === 'imageUploadForm') {
+            document.getElementById('addFormButton').style.display = 'block';
+            document.getElementById('imageUploadFormButton').style.display = 'none';
+        } else {
+            document.getElementById('addFormButton').style.display = 'none';
+            document.getElementById('imageUploadFormButton').style.display = 'block';
+        }
+
+        function showForm(formId) {
+            var forms = document.getElementsByTagName('form');
+            for (var i = 0; i < forms.length; i++) {
+                forms[i].style.display = 'none';
+            }
+
+            document.getElementById(formId).style.display = 'block';
+
+            if (formId === 'addForm') {
+                document.getElementById('addFormButton').style.display = 'none';
+                document.getElementById('imageUploadFormButton').style.display = 'block';
+            } else if (formId === 'imageUploadForm') {
+                document.getElementById('addFormButton').style.display = 'block';
+                document.getElementById('imageUploadFormButton').style.display = 'none';
+            }
+        }
+
+        function previewImage(input) {
+            var preview = document.getElementById('preview');
+            var imagePreview = document.getElementById('imagePreview');
+
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function removeImage() {
+            var preview = document.getElementById('preview');
+            var imagePreview = document.getElementById('imagePreview');
+            var fileInput = document.getElementById('imageUpload');
+
+            preview.src = '';
+            imagePreview.style.display = 'none';
+            fileInput.value = ''; 
+        }
+    </script>
+</body>
+</html>

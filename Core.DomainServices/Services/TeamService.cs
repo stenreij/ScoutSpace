@@ -20,5 +20,9 @@ namespace Core.DomainServices.Services
         {
             return _teamRepo.GetAllTeamsAsync();
         }
+        Task<Team> ITeamService.GetTeamByIdAsync(int id)
+        {
+            return _teamRepo.GetTeamByIdAsync(id);
+        }
     }
 }

@@ -1,0 +1,60 @@
+﻿@using Core.Domain.Extensions
+@using Core.Domain
+@model Player
+
+@{
+    ViewData["Title"] = "PlayerTransfer Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="PlayerTransfer Page">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h2>Transfer</h2>
+
+    <form asp-action="Transfer" method="post" id="transferForm">
+        <div class="form-group">
+            <label for="SelectedPlayerId">Selecteer speler:</label>
+            <select id="selectedPlayer" class="form-control">
+                <option value="" disabled selected>Selecteer</option>
+                @foreach (var player in ViewBag.Players)
+                {
+                    var teamName = player.team != null ? player.team.teamName : "Geen team";
+                    <option value="@player.playerId" data-team="@teamName">@player.firstName @player.lastName</option>
+                }
+            </select>
+
+        </div>
+
+        <div class="form-group">
+            <label for="CurrentTeam">Huidig team:</label>
+            <input type="text" id="currentTeam" class="form-control" readonly>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="confirmTransferBtn" disabled>Bevestig Transfer</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            $('#selectedPlayer').change(function () {
+                var selectedTeam = $(this).find(':selected').data('team');
+                $('#currentTeam').val(selectedTeam);
+
+                $('#confirmTransferBtn').prop('disabled', false);
+            });
+
+            $('#transferForm').submit(function (e) {
+                if ($('#confirmTransferBtn').is(':disabled')) {
+                    e.preventDefault();
+                    alert('Selecteer eerst een speler.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,6 +1,4 @@
-﻿@using Core.Domain.Extensions
-@using Core.Domain
-@model Player
+﻿@model Core.Domain.TransferPlayer
 
 @{
     ViewData["Title"] = "PlayerTransfer Page";
@@ -17,33 +15,54 @@
 
     <h2>Transfer</h2>
 
-    <form asp-action="Transfer" method="post" id="transferForm">
+    <form action="/Player/Transfer" method="post" id="transferForm">
         <div class="form-group">
-            <label for="SelectedPlayerId">Selecteer speler:</label>
-            <select id="selectedPlayer" class="form-control">
+            <label for="selectedPlayerId">Selecteer speler:</label>
+            <select class="form-control" id="selectedPlayerId" name="selectedPlayerId">
                 <option value="" disabled selected>Selecteer</option>
-                @foreach (var player in ViewBag.Players)
+                @if (ViewBag.Players != null)
                 {
-                    var teamName = player.team != null ? player.team.teamName : "Geen team";
-                    <option value="@player.playerId" data-team="@teamName">@player.firstName @player.lastName</option>
+                    foreach (var player in ViewBag.Players)
+                    {
+                        <option value="@player.playerId" data-team="@player.team?.teamName" data-division="@player.team?.division">@player.firstName @player.lastName</option>
+                    }
                 }
             </select>
-
         </div>
 
-        <div class="form-group">
-            <label for="CurrentTeam">Huidig team:</label>
-            <input type="text" id="currentTeam" class="form-control" readonly>
+        <div class="form-group mt-3">
+            <label for="currentTeam"><strong><u>Huidig team:</u></strong></label>
+            <br />
+            <p id="currentTeam" style="display: inline;"></p>
+            <br />
+            <p id="currentTeamDivision" style="display: inline;"></p>
         </div>
 
-        <button type="submit" class="btn btn-primary" id="confirmTransferBtn" disabled>Bevestig Transfer</button>
+        <div class="form-group mt-3">
+            <label for="selectedNewTeam">Selecteer nieuw team:</label>
+            <select asp-for="newTeamId" class="form-control" id="selectedNewTeam" name="newTeamId">
+                <option value="" disabled selected>Selecteer</option>
+                @if (ViewBag.Teams != null)
+                {
+                    foreach (var team in ViewBag.Teams)
+                    {
+                        <option value="@team.teamId">@team.teamName</option>
+                    }
+                }
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary mt-3" id="confirmTransferBtn" disabled>Bevestig Transfer</button>
     </form>
 
     <script>
         $(document).ready(function () {
-            $('#selectedPlayer').change(function () {
+            $('#selectedPlayerId').change(function () {
+                var selectedPlayerId = $(this).val();
                 var selectedTeam = $(this).find(':selected').data('team');
-                $('#currentTeam').val(selectedTeam);
+                var selectedDivision = $(this).find(':selected').data('division');
+                $('#currentTeam').text(selectedTeam);
+                $('#currentTeamDivision').text(selectedDivision);
 
                 $('#confirmTransferBtn').prop('disabled', false);
             });
@@ -51,7 +70,7 @@
             $('#transferForm').submit(function (e) {
                 if ($('#confirmTransferBtn').is(':disabled')) {
                     e.preventDefault();
-                    alert('Selecteer eerst een speler.');
+                    alert('Selecteer eerst een speler en nieuw team.');
                 }
             });
         });

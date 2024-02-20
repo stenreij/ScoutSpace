@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Core.Domain;
 using Core.DomainServices;
 using Core.DomainServices.Interfaces;
+using Core.DomainServices.Services;
 
 namespace API.Controllers
 {
@@ -33,6 +34,23 @@ namespace API.Controllers
             {
                 _logger.LogError($"Fout bij het ophalen van teams: {ex.Message}");
                 return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van teams.");
+            }
+        }
+
+        [HttpGet("team/{id}")]
+        public async Task<IActionResult> getTeamById(int id)
+        {
+            _logger.LogInformation("GetTeamById() aangeroepen");
+
+            try
+            {
+                var team = await _teamService.GetTeamByIdAsync(id);
+                return Ok(team);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het ophalen van team: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van team.");
             }
         }
     }

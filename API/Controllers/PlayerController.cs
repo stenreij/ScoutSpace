@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using Core.Domain;
 using Core.DomainServices;
 using Core.DomainServices.Interfaces;
+using Core.DomainServices.Services;
 
 namespace API.Controllers
 {
@@ -12,11 +13,16 @@ namespace API.Controllers
     {
         private readonly ILogger<PlayerController> _logger;
         private readonly IPlayerService _playerService;
+        private readonly ITeamService _teamService;
 
-        public PlayerController(ILogger<PlayerController> logger, IPlayerService playerService)
+        public PlayerController(
+            ILogger<PlayerController> logger, 
+            IPlayerService playerService,
+            ITeamService teamService)
         {
             _logger = logger;
             _playerService = playerService;
+            _teamService = teamService;
         }
 
         [HttpGet("players")]
@@ -83,6 +89,40 @@ namespace API.Controllers
             }
         }
 
+        [HttpPut("player/{id}/transfer")]
+        public async Task<IActionResult> TransferPlayerAsync(int id, [FromBody] TransferPlayer transferModel)
+        {
+            _logger.LogInformation($"TransferPlayerAsync() aangeroepen voor speler met ID: {id}");
+            _logger.LogInformation($"TransferPlayerAsync() aangeroepen voor team met ID: {transferModel.newTeamId}");
+
+            try
+            {
+                var player = await _playerService.GetPlayerByIdAsync(id);
+                if (player == null)
+                {
+                    return NotFound($"Speler met ID {id} niet gevonden.");
+                }
+
+                var newTeam = await _teamService.GetTeamByIdAsync(transferModel.newTeamId);
+                if (newTeam == null)
+                {
+                    _logger.LogError($"Team met ID {transferModel.newTeamId} niet gevonden.");
+                    return NotFound($"Team met ID {transferModel.newTeamId} niet gevonden.");
+                }
+
+                player.teamId = transferModel.newTeamId;
+                player.team = newTeam;
+
+                await _playerService.UpdatePlayerAsync(player);
+                return Ok(player);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het overdragen van de speler naar een ander team: {ex.ToString()}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het overdragen van de speler naar een ander team.");
+            }
+        }
+
         [HttpDelete("player/{id}")]
         public async Task<IActionResult> DeletePlayerAsync(int id)
         {
@@ -106,6 +146,7 @@ namespace API.Controllers
                 return StatusCode(500, "Er is een interne fout opgetreden bij het verwijderen van de speler.");
             }
         }
+
         [HttpPost("player")]
         public async Task <IActionResult> AddPlayerAsync([FromBody] Player player)
         {

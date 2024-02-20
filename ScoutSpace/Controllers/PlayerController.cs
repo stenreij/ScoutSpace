@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ScoutSpace.Models;
 using System.Diagnostics;
+using System.Net.Http.Headers;
 
 namespace ScoutSpace.Controllers
 {
@@ -108,7 +109,7 @@ namespace ScoutSpace.Controllers
                     string playerData = getPlayerResponse.Content.ReadAsStringAsync().Result;
                     Player currentPlayer = JsonConvert.DeserializeObject<Player>(playerData);
 
-                    if(currentPlayer == null)
+                    if (currentPlayer == null)
                     {
                         return NotFound();
                     }
@@ -144,7 +145,7 @@ namespace ScoutSpace.Controllers
                 return View();
             }
 
-            return RedirectToAction("PlayerList"); 
+            return RedirectToAction("PlayerList");
         }
 
         [HttpPost]
@@ -283,11 +284,33 @@ namespace ScoutSpace.Controllers
         }
 
         [HttpPost]
-        public IActionResult Transfer(Player transferPlayer)
+        public async Task<IActionResult> Transfer(int selectedPlayerId, TransferPlayer transferModel)
         {
-            // Gebruik model.SelectedPlayer om de geselecteerde speler te krijgen
-            // Voer de rest van de logica uit
-            return View(transferPlayer);
+            try
+            {
+                if (transferModel == null || transferModel.newTeamId == null)
+                {
+                    return RedirectToAction("TransferError");
+                }
+
+                var playerId = selectedPlayerId;
+
+
+                HttpResponseMessage response = client.PutAsJsonAsync($"{client.BaseAddress}/player/{playerId}/transfer", transferModel).Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("PlayerList");
+                }
+                else
+                {
+                    return View("PlayerTransfer");
+                }
+            }
+            catch (Exception ex)
+            {
+                return View("PlayerTransfer");
+            }
         }
 
     }

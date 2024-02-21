@@ -11,7 +11,7 @@ namespace Core.Domain
     {
         [Display(Name = "Eredivisie")]
         Eredivisie,
-        [Display(Name = "Keuken Kampioen Divisie")]
+        [Display(Name = "Keukenkampioendivisie")]
         KeukenKampioenDivisie,
         [Display(Name = "Tweede Divisie")]
         TweedeDivisie,

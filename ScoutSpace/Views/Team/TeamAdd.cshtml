@@ -1,0 +1,68 @@
+﻿@using Core.Domain.Extensions
+@using Core.Domain
+@model Team
+
+@{
+    ViewData["Title"] = "TeamAdd Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="TeamAdd Page">
+</head>
+<body>
+    <div class="container mt-4 mb-1">
+        <h2>Voeg een nieuw team toe</h2>
+
+        <form id="addForm" action="/Team/TeamAdd" method="post">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="teamName" class="form-label">Teamnaam</label>
+                        <input type="text" class="form-control" id="teamName" name="teamName" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="city" class="form-label">Plaats</label>
+                        <input type="text" class="form-control" id="city" name="city" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="contactNr" class="form-label">Contact nummer</label>
+                        <input type="number" class="form-control" id="contactNr" name="contactNr" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="division" class="form-label">Divisie / Klasse</label>
+                        <select asp-for="division" class="form-control" asp-items="Html.GetEnumSelectList<Division>()">
+                            <option value="" disabled>-- Selecteer Divisie / Klasse --</option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary addButton" id="submitButton" disabled>Voeg toe</button>
+        </form>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById("addForm");
+            var submitButton = document.getElementById("submitButton");
+
+            form.addEventListener("input", function () {
+                var inputs = form.querySelectorAll("input[required]");
+                var isFormValid = Array.from(inputs).every(function (input) {
+                    return input.value.trim() !== "";
+                });
+
+                submitButton.disabled = !isFormValid;
+            });
+        });
+    </script>
+</body>
+</html>

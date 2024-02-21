@@ -30,5 +30,12 @@ namespace ScoutSpace.Controllers
             }
             return View(teamList);
         }
+
+        [HttpGet]
+        public IActionResult TeamAdd()
+        {
+            return View();
+        }
+
     }
 }

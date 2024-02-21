@@ -53,5 +53,28 @@ namespace API.Controllers
                 return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van team.");
             }
         }
+
+        [HttpPost("team")]
+        public async Task<IActionResult> AddTeamAsync([FromBody] Team team)
+        {
+            _logger.LogInformation($"AddTeamAsync() aangeroepen");
+
+            try
+            {
+                await _teamService.AddTeamAsync(team);
+                return Ok(team);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError($"Team met naam {team.teamName} bestaat al.");
+                return BadRequest($"Een team met de naam {team.teamName} bestaat al. Kies een andere naam.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het toevoegen van team: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het toevoegen van team.");
+            }
+        }
+
     }
 }

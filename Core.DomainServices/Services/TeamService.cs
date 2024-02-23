@@ -44,5 +44,10 @@ namespace Core.DomainServices.Services
         {
             return _teamRepo.IsTeamNameUniqueAsync(teamName);
         }
+
+        Task ITeamService.UpdateTeamAsync(Team team)
+        {
+            return _teamRepo.UpdateTeamAsync(team);
+        }
     }
 }

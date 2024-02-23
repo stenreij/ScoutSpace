@@ -37,5 +37,35 @@ namespace ScoutSpace.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult TeamAdd(Team newTeam)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    HttpResponseMessage addTeamResponse = client.PostAsJsonAsync($"{client.BaseAddress}/team", newTeam).Result;
+
+                    if (addTeamResponse.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("TeamList");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {addTeamResponse.StatusCode} - {addTeamResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Error adding team";
+                        return View();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return View();
+            }
+
+            return View();
+        }
+
     }
 }

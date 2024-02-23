@@ -67,5 +67,18 @@ namespace ScoutSpace.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult TeamPromotionRelegation()
+        {
+            List<Team> teamList = new List<Team>();
+            HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/teams").Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                teamList = JsonConvert.DeserializeObject<List<Team>>(data);
+            }
+            return View(teamList);
+        }
     }
 }

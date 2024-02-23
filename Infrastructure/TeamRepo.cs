@@ -37,5 +37,16 @@ namespace Infrastructure
             return !await _context.Team.AnyAsync(t => t.teamName == teamName);
         }
 
+        public async Task UpdateTeamAsync(Team team)
+        {
+            var teamToUpdate = await _context.Team.FindAsync(team.teamId);
+
+            if (teamToUpdate != null)
+            {
+                _context.Entry(teamToUpdate).CurrentValues.SetValues(team);
+                await _context.SaveChangesAsync();
+            }
+        }
+
     }
 }

@@ -13,5 +13,6 @@ namespace Core.DomainServices.Interfaces
         Task<Team> GetTeamByIdAsync(int id);
         Task AddTeamAsync(Team team);
         Task<bool> IsTeamNameUniqueAsync(string teamName);
+        Task UpdateTeamAsync(Team team);
     }
 }

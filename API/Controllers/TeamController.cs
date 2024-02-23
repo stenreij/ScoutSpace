@@ -76,5 +76,44 @@ namespace API.Controllers
             }
         }
 
+        [HttpPut("teams/divisionupdate")]
+        public async Task<IActionResult> UpdateTeamDivision([FromBody] TeamPromotionRelegation updateModel)
+        {
+            int teamId = updateModel.teamId;
+
+            try
+            {
+                var existingTeam = await _teamService.GetTeamByIdAsync(teamId);
+                if (existingTeam == null)
+                {
+                    return NotFound($"Team met ID {teamId} niet gevonden.");
+                }
+
+                if (updateModel.Promotion)
+                {
+                    if (existingTeam.division > Division.Eredivisie)
+                    {
+                        existingTeam.division -= 1;
+                    }
+                }
+                else if (updateModel.Relegation)
+                {
+                    if (existingTeam.division < Division.VijfdeKlasse)
+                    {
+                        existingTeam.division += 1;
+                    }
+                }
+
+                await _teamService.UpdateTeamAsync(existingTeam);
+
+                return Ok(existingTeam);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het bijwerken van team: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het bijwerken van team.");
+            }
+        }
+
     }
 }

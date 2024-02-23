@@ -31,30 +31,36 @@
         </script>
     }
 </head>
-<div class="container mt-3">
-    <div class="table-responsive custom-table-container">
-        <table id="teamTable" class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Clubnaam</th>
-                    <th scope="col">Divisie/Klasse</th>
-                    <th scope="col">Plaats</th>
-                    <th scope="col">Contact</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var team in Model)
-                {
+<body>
+    <a asp-area="" asp-controller="Team" asp-action="TeamAdd" class="btn btn-primary addButton mt-3">Voeg team toe</a>
+    <a asp-area="" asp-controller="Team" asp-action="TeamPromotionRelegation" class="btn btn-primary addButton mt-3">Promotie / Degradatie</a>
+
+    <div class="container mt-3">
+        <div class="table-responsive custom-table-container">
+            <table id="teamTable" class="table table-striped">
+                <thead>
                     <tr>
-                        <th scope="row">@team.teamId</th>
-                        <td>@team.teamName</td>
-                        <td>@team.division.GetDisplayName()</td>
-                        <td>@team.city</td>
-                        <td>@team.contactNr</td>
+                        <th scope="col">Id</th>
+                        <th scope="col">Clubnaam</th>
+                        <th scope="col">Divisie/Klasse</th>
+                        <th scope="col">Plaats</th>
+                        <th scope="col">Contact</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var team in Model)
+                    {
+                        <tr>
+                            <th scope="row">@team.teamId</th>
+                            <td>@team.teamName</td>
+                            <td>@team.division.GetDisplayName()</td>
+                            <td>@team.city</td>
+                            <td>@team.contactNr</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+</body>
+</html>

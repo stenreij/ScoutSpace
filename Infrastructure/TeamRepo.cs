@@ -26,5 +26,16 @@ namespace Infrastructure
                 .FirstAsync(t => t.teamId == id);
         }
 
+        public async Task AddTeamAsync(Team team)
+        {
+            await _context.Team.AddAsync(team);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<bool> IsTeamNameUniqueAsync(string teamName)
+        {
+            return !await _context.Team.AnyAsync(t => t.teamName == teamName);
+        }
+
     }
 }

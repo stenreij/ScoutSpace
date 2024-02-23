@@ -11,5 +11,7 @@ namespace Core.DomainServices.Interfaces
     {
         Task<IEnumerable<Team>> GetAllTeamsAsync();
         Task<Team> GetTeamByIdAsync(int id);
+        Task AddTeamAsync(Team team);
+        Task<bool> IsTeamNameUniqueAsync(string teamName);
     }
 }

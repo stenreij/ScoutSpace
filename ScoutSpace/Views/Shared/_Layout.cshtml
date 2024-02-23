@@ -22,9 +22,21 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Team" asp-action="TeamList">Teams</a>
+
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="teamDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Team
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="teamDropdown">
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Team" asp-action="TeamList">Teamlijst</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Team" asp-action="TeamAdd">Team toevoegen</a></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Team" asp-action="TeamPromotionRelegation">Promotie / Degradatie</a></li>
+
+                            </ul>
                         </li>
+
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="spelerDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Speler
@@ -35,6 +47,8 @@
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Player" asp-action="PlayerTransfer">Transfer</a></li>
                             </ul>
                         </li>
+
+
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Scout" asp-action="ScoutList">Scouts</a>
                         </li>
@@ -73,19 +87,21 @@
     @await RenderSectionAsync("Scripts", required: false)
 
     <script>
-        // JavaScript om het submenu direct te tonen bij hover
-        var dropdown = document.querySelector('.nav-item.dropdown');
-        var dropdownToggle = document.querySelector('.nav-link.dropdown-toggle');
-        var dropdownMenu = document.querySelector('.dropdown-menu');
+        var dropdowns = document.querySelectorAll('.nav-item.dropdown');
 
-        dropdown.addEventListener('mouseover', function () {
-            dropdownToggle.setAttribute('aria-expanded', 'true');
-            dropdownMenu.classList.add('show');
-        });
+        dropdowns.forEach(function (dropdown) {
+            var dropdownToggle = dropdown.querySelector('.nav-link.dropdown-toggle');
+            var dropdownMenu = dropdown.querySelector('.dropdown-menu');
 
-        dropdown.addEventListener('mouseout', function () {
-            dropdownToggle.setAttribute('aria-expanded', 'false');
-            dropdownMenu.classList.remove('show');
+            dropdown.addEventListener('mouseover', function () {
+                dropdownToggle.setAttribute('aria-expanded', 'true');
+                dropdownMenu.classList.add('show');
+            });
+
+            dropdown.addEventListener('mouseout', function () {
+                dropdownToggle.setAttribute('aria-expanded', 'false');
+                dropdownMenu.classList.remove('show');
+            });
         });
     </script>
 </body>

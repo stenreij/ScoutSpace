@@ -62,7 +62,6 @@
                 var selectedTeam = $(this).find(':selected').data('team');
                 var selectedDivision = $(this).find(':selected').data('division');
 
-                // Hier splitsen we de camelCase string en voegen spaties toe tussen de woorden
                 var formattedDivision = selectedDivision.replace(/([a-z])([A-Z])/g, '$1 $2');
 
                 $('#currentTeam').text(selectedTeam);

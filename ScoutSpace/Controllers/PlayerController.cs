@@ -200,6 +200,7 @@ namespace ScoutSpace.Controllers
                 return View();
             }
         }
+
         [HttpPost]
         public IActionResult PlayerAdd(Player newPlayer)
         {

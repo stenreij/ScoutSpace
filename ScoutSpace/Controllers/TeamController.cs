@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ScoutSpace.Models;
 using System.Diagnostics;
+using System.Net;
 
 namespace ScoutSpace.Controllers
 {
@@ -80,5 +81,37 @@ namespace ScoutSpace.Controllers
             }
             return View(teamList);
         }
+
+        [HttpGet("team/update/{id}")]
+        public async Task<IActionResult> TeamUpdate(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = await client.GetAsync($"{client.BaseAddress}/team/{id}");
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == HttpStatusCode.NotFound)
+                    {
+                        return NotFound($"Team met ID {id} niet gevonden.");
+                    }
+                    else
+                    {
+                        return StatusCode((int)response.StatusCode, "Er is een interne fout opgetreden bij het ophalen van team.");
+                    }
+                }
+
+                string data = await response.Content.ReadAsStringAsync();
+                Team team = JsonConvert.DeserializeObject<Team>(data);
+
+                return View("TeamUpdate", team);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het ophalen van team: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van team.");
+            }
+        }
+
     }
 }

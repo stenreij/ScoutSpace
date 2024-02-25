@@ -45,6 +45,7 @@
                         <th scope="col">Divisie/Klasse</th>
                         <th scope="col">Plaats</th>
                         <th scope="col">Contact</th>
+                        <th scope="col">Edit</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,6 +57,9 @@
                             <td>@team.division.GetDisplayName()</td>
                             <td>@team.city</td>
                             <td>@team.contactNr</td>
+                            <td>
+                                <a asp-controller="Team" asp-action="TeamUpdate" asp-route-id="@team.teamId" class="btn btn-primary">Edit</a>
+                            </td>
                         </tr>
                     }
                 </tbody>

@@ -115,5 +115,35 @@ namespace API.Controllers
             }
         }
 
+        [HttpPut("team/{id}")]
+        public async Task<IActionResult> UpdateTeamAsync(int id, [FromBody] Team updatedTeam)
+        {
+            _logger.LogInformation($"UpdateTeamAsync() aangeroepen voor team met ID: {id}");
+
+            if (updatedTeam == null)
+            {
+                return BadRequest();
+            }
+
+            updatedTeam.teamId = id;
+
+            try
+            {
+                await _teamService.UpdateTeamAsync(updatedTeam);
+
+                if (updatedTeam == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(updatedTeam);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het bijwerken van team: {ex.Message}");
+                return NotFound($"Team met ID {id} niet gevonden.");
+            }
+        }
+
     }
 }

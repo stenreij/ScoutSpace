@@ -20,18 +20,19 @@
 
         <script>
             $(document).ready(function () {
-                $('input[name^="promotions"]').on('change', function () {
-                    if ($(this).prop('checked')) {
-                        var rowIndex = $(this).closest('tr').index();
-                        $('input[name^="relegations"]').eq(rowIndex).prop('checked', false);
-                    }
-                });
+                $('form').submit(function () {
+                    $('tbody tr').each(function () {
+                        var teamId = $(this).find('input[name="teamId"]').val();
+                        var promotionsCheckbox = $(this).find('input[name="promotions"]');
+                        var relegationsCheckbox = $(this).find('input[name="relegations"]');
 
-                $('input[name^="relegations"]').on('change', function () {
-                    if ($(this).prop('checked')) {
-                        var rowIndex = $(this).closest('tr').index();
-                        $('input[name^="promotions"]').eq(rowIndex).prop('checked', false);
-                    }
+                        var promotionValue = promotionsCheckbox.prop('checked');
+                        var relegationValue = relegationsCheckbox.prop('checked');
+
+                        $(this).append('<input type="hidden" name="updateModels[' + teamId + '].teamId" value="' + teamId + '" />');
+                        $(this).append('<input type="hidden" name="updateModels[' + teamId + '].Promotion" value="' + promotionValue + '" />');
+                        $(this).append('<input type="hidden" name="updateModels[' + teamId + '].Relegation" value="' + relegationValue + '" />');
+                    });
                 });
 
                 $('#teamTable').DataTable({
@@ -45,7 +46,7 @@
     }
 </head>
 <body>
-    <form asp-action="UpdateDivisions" method="post">
+    <form action="/Team/TeamPromotionRelegation" method="post">
         <div class="container mt-3">
             <div class="table-responsive custom-table-container">
                 <table id="teamTable" class="table table-striped">
@@ -64,8 +65,9 @@
                         @foreach (var team in Model)
                         {
                             <tr>
-                                <td><input type="checkbox" name="promotions" value="@team.teamId" /></td>
-                                <td><input type="checkbox" name="relegations" value="@team.teamId" /></td>
+                                <input type="hidden" name="teamId" value="@team.teamId" />
+                                <td><input type="checkbox" name="promotions" /></td>
+                                <td><input type="checkbox" name="relegations" /></td>
                                 <td>@team.teamId</td>
                                 <td>@team.teamName</td>
                                 <td>@team.division.GetDisplayName()</td>

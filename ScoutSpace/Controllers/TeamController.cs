@@ -1,4 +1,5 @@
-﻿using Core.Domain;
+﻿using Azure;
+using Core.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ScoutSpace.Models;
@@ -80,6 +81,33 @@ namespace ScoutSpace.Controllers
                 teamList = JsonConvert.DeserializeObject<List<Team>>(data);
             }
             return View(teamList);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TeamPromotionRelegation(Dictionary<int, TeamPromotionRelegation> updateModels)
+        {
+            try
+            {
+                foreach (var (teamId, updateModel) in updateModels)
+                {
+                    HttpResponseMessage existingTeam = await client.GetAsync($"{client.BaseAddress}/team/{teamId}");
+
+                    if (existingTeam == null)
+                    {
+                        return NotFound($"Team met ID {teamId} niet gevonden.");
+                    }
+
+                    HttpResponseMessage response = client.PutAsJsonAsync($"{client.BaseAddress}/teams/divisionupdate", updateModel).Result;
+                    response.EnsureSuccessStatusCode();
+                }
+
+                return RedirectToAction("TeamPromotionRelegation");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het bijwerken van divisies: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het bijwerken van divisies.");
+            }
         }
 
         [HttpGet("team/update/{id}")]

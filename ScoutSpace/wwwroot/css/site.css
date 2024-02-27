@@ -32,6 +32,7 @@ body {
 
 .navbar-brand {
     color: white !important;
+    margin-left: 2%;
 }
 
 .nav-link, .navbar-nav {

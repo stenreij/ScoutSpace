@@ -48,5 +48,14 @@ namespace Infrastructure
             }
         }
 
+        public async Task DeleteTeamAsync(int id)
+        {
+            var teamToDelete = await _context.Team.FindAsync(id);
+
+            if(teamToDelete != null)
+                _context.Remove(teamToDelete);
+                await _context.SaveChangesAsync();
+        }
+
     }
 }

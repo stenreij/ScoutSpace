@@ -235,5 +235,29 @@ namespace ScoutSpace.Controllers
             return RedirectToAction("TeamList");
         }
 
+        [HttpPost]
+        public IActionResult TeamDelete(int id)
+        {
+            try
+            {
+                HttpResponseMessage response = client.DeleteAsync($"{client.BaseAddress}/team/{id}").Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("TeamList");
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return View();
+            }
+        }
+
     }
 }

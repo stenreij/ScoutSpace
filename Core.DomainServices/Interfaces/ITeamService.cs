@@ -14,5 +14,6 @@ namespace Core.DomainServices.Interfaces
         Task AddTeamAsync(Team team);
         Task<bool> IsTeamNameUniqueAsync(string teamName);
         Task UpdateTeamAsync(Team team);
+        Task DeleteTeamAsync(int id);
     }
 }

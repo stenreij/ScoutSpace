@@ -49,5 +49,10 @@ namespace Core.DomainServices.Services
         {
             return _teamRepo.UpdateTeamAsync(team);
         }
+
+        Task ITeamService.DeleteTeamAsync(int id)
+        {
+            return _teamRepo.DeleteTeamAsync(id);
+        }
     }
 }

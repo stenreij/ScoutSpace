@@ -15,23 +15,30 @@
     <div class="container mt-4 mb-1">
         <h2>Voeg een nieuw team toe</h2>
 
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
         <form id="addForm" action="/Team/TeamAdd" method="post">
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="teamName" class="form-label">Teamnaam</label>
-                        <input type="text" class="form-control" id="teamName" name="teamName" required>
+                        <input type="text" class="form-control" id="teamName" name="teamName" value="@(!string.IsNullOrEmpty(Model?.teamName) ? Model.teamName : "")" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="city" class="form-label">Plaats</label>
-                        <input type="text" class="form-control" id="city" name="city" required>
+                        <input type="text" class="form-control" id="city" name="city" value="@(!string.IsNullOrEmpty(Model?.city) ? Model.city : "")" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="contactNr" class="form-label">Contact nummer</label>
-                        <input type="number" class="form-control" id="contactNr" name="contactNr" required>
+                        <input type="number" class="form-control" id="contactNr" name="contactNr" value="@((Model?.contactNr != null) ? Model.contactNr.ToString() : "")" required>
                     </div>
 
                     <div class="mb-3">

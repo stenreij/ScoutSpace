@@ -46,6 +46,7 @@
                         <th scope="col">Plaats</th>
                         <th scope="col">Contact</th>
                         <th scope="col">Edit</th>
+                        <th scope="col">Verwijder</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -60,11 +61,32 @@
                             <td>
                                 <a asp-controller="Team" asp-action="TeamUpdate" asp-route-id="@team.teamId" class="btn btn-primary">Edit</a>
                             </td>
+                            <td>
+                                <button class="btn btn-danger" onclick="confirmDeleteTeam(@team.teamId, '@team.teamName')">Verwijder</button>
+                            </td>
                         </tr>
                     }
                 </tbody>
             </table>
         </div>
     </div>
+
+    <script>
+        function confirmDeleteTeam(teamId, teamName) {
+            if (confirm(`Weet je zeker dat je het team ${teamName} wilt verwijderen?`)) {
+                $.ajax({
+                    url: `/Team/TeamDelete/${teamId}`,
+                    type: 'POST',
+                    success: function (result) {
+                        console.log(result);
+                        window.location.href = '/Team/TeamList';
+                    },
+                    error: function (error) {
+                        console.error('Er is een fout opgetreden bij het verwijderen van het team:', error);
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 </html>

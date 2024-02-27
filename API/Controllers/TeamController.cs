@@ -145,5 +145,29 @@ namespace API.Controllers
             }
         }
 
+        [HttpDelete("team/{id}")]
+        public async Task<IActionResult> DeleteTeamAsync(int id)
+        {
+            _logger.LogInformation($"DeleteTeamAsync() aangeroepen voor team met ID: {id}");
+
+            try
+            {
+                var team = await _teamService.GetTeamByIdAsync(id);
+                if (team == null)
+                {
+                    _logger.LogWarning($"Team met id {id} niet gevonden");
+                    return NotFound("Team met dit ID is niet gevonden.");
+                }
+
+                await _teamService.DeleteTeamAsync(id);
+                return Ok("Team met ID " + id + " verwijderd");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het verwijderen van het team: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het verwijderen van het team.");
+            }
+        }
+
     }
 }

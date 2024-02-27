@@ -15,7 +15,16 @@
     <div class="container mt-4 mb-1">
         <h2>Update teamgegevens</h2>
 
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
         <form id="updateForm" action="/Team/TeamUpdate" method="post">
+            <input type="hidden" name="teamId" value="@Model.teamId" />
+
 
             <div class="row">
                 <div class="col-md-6">

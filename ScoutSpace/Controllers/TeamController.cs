@@ -40,13 +40,33 @@ namespace ScoutSpace.Controllers
         }
 
         [HttpPost]
-        public IActionResult TeamAdd(Team newTeam)
+        public async Task<IActionResult> TeamAdd(Team newTeam)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    HttpResponseMessage addTeamResponse = client.PostAsJsonAsync($"{client.BaseAddress}/team", newTeam).Result;
+                    HttpResponseMessage getAllTeamsResponse = await client.GetAsync($"{client.BaseAddress}/teams");
+
+                    if (getAllTeamsResponse.IsSuccessStatusCode)
+                    {
+                        string teamsData = await getAllTeamsResponse.Content.ReadAsStringAsync();
+                        List<Team> allTeams = JsonConvert.DeserializeObject<List<Team>>(teamsData);
+
+                        if (allTeams.Any(team => team.teamName.Equals(newTeam.teamName, StringComparison.OrdinalIgnoreCase) && team.teamId != newTeam.teamId))
+                        {
+                            ViewBag.ErrorMessage = "Team met deze naam bestaat al.";
+                            return View(newTeam);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {getAllTeamsResponse.StatusCode} - {getAllTeamsResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Error retrieving team data";
+                        return View(newTeam);
+                    }
+
+                    HttpResponseMessage addTeamResponse = await client.PostAsJsonAsync($"{client.BaseAddress}/team", newTeam);
 
                     if (addTeamResponse.IsSuccessStatusCode)
                     {
@@ -56,17 +76,18 @@ namespace ScoutSpace.Controllers
                     {
                         Console.WriteLine($"Error: {addTeamResponse.StatusCode} - {addTeamResponse.ReasonPhrase}");
                         ViewBag.ErrorMessage = "Error adding team";
-                        return View();
+                        return View(newTeam);
                     }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                return View();
+                ViewBag.ErrorMessage = "An unexpected error occurred";
+                return View(newTeam);
             }
 
-            return View();
+            return View(newTeam);
         }
 
         [HttpGet]
@@ -139,6 +160,79 @@ namespace ScoutSpace.Controllers
                 _logger.LogError($"Fout bij het ophalen van team: {ex.Message}");
                 return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van team.");
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TeamUpdate(Team updatedTeam)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    HttpResponseMessage getAllTeamsResponse = await client.GetAsync($"{client.BaseAddress}/teams");
+                    if (getAllTeamsResponse.IsSuccessStatusCode)
+                    {
+                        string teamsData = await getAllTeamsResponse.Content.ReadAsStringAsync();
+                        List<Team> allTeams = JsonConvert.DeserializeObject<List<Team>>(teamsData);
+
+                        if (allTeams.Any(team => team.teamName.Equals(updatedTeam.teamName, StringComparison.OrdinalIgnoreCase) && team.teamId != updatedTeam.teamId))
+                        {
+                            ViewBag.ErrorMessage = "Team met deze naam bestaat al.";
+                            return View(updatedTeam);
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {getAllTeamsResponse.StatusCode} - {getAllTeamsResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Error retrieving team data";
+                        return View(updatedTeam);
+                    }
+
+                    var id = updatedTeam.teamId;
+                    HttpResponseMessage getTeamResponse = await client.GetAsync($"{client.BaseAddress}/team/{updatedTeam.teamId}");
+
+                    if (!getTeamResponse.IsSuccessStatusCode)
+                    {
+                        Console.WriteLine($"Error: {getTeamResponse.StatusCode} - {getTeamResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Error retrieving team data";
+                        return View();
+                    }
+
+                    string teamData = await getTeamResponse.Content.ReadAsStringAsync();
+                    Team currentTeam = JsonConvert.DeserializeObject<Team>(teamData);
+
+                    if (currentTeam == null)
+                    {
+                        return NotFound();
+                    }
+
+                    currentTeam.teamName = updatedTeam.teamName;
+                    currentTeam.contactNr = updatedTeam.contactNr;
+                    currentTeam.division = updatedTeam.division;
+                    currentTeam.city = updatedTeam.city;
+
+                    HttpResponseMessage updateResponse = await client.PutAsJsonAsync($"{client.BaseAddress}/team/{updatedTeam.teamId}", currentTeam);
+
+                    if (updateResponse.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("TeamList");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"Error: {updateResponse.StatusCode} - {updateResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Error updating team data";
+                        return View();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                ViewBag.ErrorMessage = "An unexpected error occurred";
+                return View();
+            }
+
+            return RedirectToAction("TeamList");
         }
 
     }

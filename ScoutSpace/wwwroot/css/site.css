@@ -8,10 +8,6 @@ html {
     }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cff;
-}
-
 html {
     position: relative;
     min-height: 100%;
@@ -127,6 +123,32 @@ a {
     width: 100%;
 }
 
+.editButton {
+    background-color: #7b7ba5 !important;
+    border: none !important;
+    color: white !important;
+}
+
+.editButton:hover {
+    background-color: #5b5974 !important;
+}
+
+.editButton:active:focus, .editButton:focus {
+    box-shadow: 0 0 0 0.2rem #66638e;
+}
+
+.btn-danger{
+    background-color: #b63f3fff !important;
+}
+
+.btn-danger:hover {
+    background-color: #8a2525ff !important;
+}
+
+.deleteButton:active:focus, .deleteButton:focus {
+    box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.5);
+}
+
 .addButton {
     background-color: #314087f2 !important;
     border: none;
@@ -136,6 +158,6 @@ a {
     background-color: #27315ef2 !important;
 }
 
-.addButton:focus {
+.addButton:active:focus, .addButton:focus {
     box-shadow: #4657a5e5 !important;
 }

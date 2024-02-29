@@ -59,10 +59,10 @@
                             <td>@team.city</td>
                             <td>@team.contactNr</td>
                             <td>
-                                <a asp-controller="Team" asp-action="TeamUpdate" asp-route-id="@team.teamId" class="btn btn-primary">Edit</a>
+                                <a asp-controller="Team" asp-action="TeamUpdate" asp-route-id="@team.teamId" class="btn btn-primary editButton">Edit</a>
                             </td>
                             <td>
-                                <button class="btn btn-danger" onclick="confirmDeleteTeam(@team.teamId, '@team.teamName')">Verwijder</button>
+                                <button class="btn btn-danger deleteButton" onclick="confirmDeleteTeam(@team.teamId, '@team.teamName')">Verwijder</button>
                             </td>
                         </tr>
                     }

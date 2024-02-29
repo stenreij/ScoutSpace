@@ -50,7 +50,7 @@
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="">
-                                            <a asp-controller="Player" asp-action="PlayerUpdate" asp-route-id="@Model.playerId" class="btn btn-primary me-2"> Update</a>
+                                            <a asp-controller="Player" asp-action="PlayerUpdate" asp-route-id="@Model.playerId" class="btn btn-primary addButton me-2"> Update</a>
                                             <button class="btn btn-danger" onclick="confirmDelete(@Model.playerId)">Verwijder</button>
                                         </div>
                                     </li>
@@ -88,7 +88,7 @@
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="">
-                                            <button class="btn btn-primary me-2">Update</button>
+                                            <button class="btn btn-primary addButton me-2">Update</button>
                                             <button class="btn btn-danger">Verwijder</button>
                                         </div>
                                     </li>
@@ -111,7 +111,7 @@
                                         <div class="details" style="display: none;">
                                             <p class="card-text">@notitie.description</p>
                                             <div class="">
-                                                <button class="btn btn-primary me-2">Update</button>
+                                                <button class="btn btn-primary addButton me-2">Update</button>
                                                 <button class="btn btn-danger">Verwijder</button>
                                             </div>
                                         </div>
@@ -128,7 +128,7 @@
                                         <div class="details" style="display: none;">
                                             <p class="card-text">@notitie.description</p>
                                             <div class="">
-                                                <button class="btn btn-primary me-2">Update</button>
+                                                <button class="btn btn-primary addButton me-2">Update</button>
                                                 <button class="btn btn-danger">Verwijder</button>
                                             </div>
                                         </div>

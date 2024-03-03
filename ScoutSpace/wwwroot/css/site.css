@@ -134,7 +134,7 @@ a {
 }
 
 .editButton:active:focus, .editButton:focus {
-    box-shadow: 0 0 0 0.2rem #66638e;
+    box-shadow: 0 0 0 0.2rem #a9a6d1;
 }
 
 .btn-danger{

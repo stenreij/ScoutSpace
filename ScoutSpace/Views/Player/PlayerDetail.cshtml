@@ -101,6 +101,7 @@
             <div class="col-lg-6">
                 <div class="">
                     <h2 class="text-center">Notities</h2>
+                    <a asp-area="" asp-controller="Player" asp-action="PlayerAdd" class="btn btn-primary addButton mt-1 m-2">Voeg notitie toe</a>
                     <div class="row">
                         <div class="col-md-6">
                             @foreach (var notitie in Model.notities.Take((Model.notities.Count() + 1) / 2))

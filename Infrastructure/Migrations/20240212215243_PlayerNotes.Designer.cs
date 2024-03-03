@@ -27,11 +27,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Core.Domain.Notitie", b =>
                 {
-                    b.Property<int>("notitieId")
+                    b.Property<int>("noteId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("notitieId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("noteId"));
 
                     b.Property<string>("description")
                         .IsRequired()
@@ -44,7 +44,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("notitieId");
+                    b.HasKey("noteId");
 
                     b.HasIndex("playerId");
 

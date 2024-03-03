@@ -25,9 +25,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IScoutRepo, ScoutRepo>();
 builder.Services.AddScoped<IPlayerRepo, PlayerRepo>();
 builder.Services.AddScoped<ITeamRepo, TeamRepo>();
+builder.Services.AddScoped<INoteRepo, NoteRepo>();
 builder.Services.AddScoped<IScoutService, ScoutService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<ITeamService, TeamService>();
+builder.Services.AddScoped<INoteService, NoteService>();
 
 //DB connection
 builder.Services.AddDbContext<ScoutSpaceDbContext>(options =>

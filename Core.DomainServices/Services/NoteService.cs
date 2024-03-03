@@ -20,5 +20,21 @@ namespace Core.DomainServices.Services
         {
             return _noteRepo.GetAllNotesAsync();
         }
+        public async Task AddNoteAsync(Note note)
+        {
+            bool isNoteTitleUnique = await _noteRepo.IsNoteTitleUniqueAsync(note.title, note.playerId);
+
+            if (!isNoteTitleUnique)
+            {
+                throw new InvalidOperationException($"Notitie met titel {note.title} bestaat al.");
+            }
+
+            await _noteRepo.AddNoteAsync(note);
+        }
+        public Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId)
+        {
+            return _noteRepo.IsNoteTitleUniqueAsync(noteTitle, playerId);
+        }
+
     }
 }

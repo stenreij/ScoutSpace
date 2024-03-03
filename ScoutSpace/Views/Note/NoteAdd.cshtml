@@ -1,19 +1,19 @@
 ﻿@using Core.Domain.Extensions
 @using Core.Domain
-@model Team
+@model Note
 
 @{
-    ViewData["Title"] = "TeamAdd Page";
+    ViewData["Title"] = "NoteAdd Page";
 }
 
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="description" content="TeamAdd Page">
+    <meta name="description" content="NoteAdd Page">
 </head>
 <body>
     <div class="container mt-4 mb-1">
-        <h2>Voeg een nieuw team toe</h2>
+        <h2>Voeg een notitie toe</h2>
 
         @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
         {
@@ -22,32 +22,20 @@
             </div>
         }
 
-        <form id="addForm" action="/Team/TeamAdd" method="post">
+        <form id="addForm" action="/Note/NoteAdd" method="post">
+            <input type="hidden" name="playerId" value="@ViewData["playerId"]" />
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
-                        <label for="teamName" class="form-label">Teamnaam</label>
-                        <input type="text" class="form-control" id="teamName" name="teamName" required>
+                        <label for="title" class="form-label">Titel</label>
+                        <input type="text" class="form-control" id="title" name="title" value="@Html.DisplayFor(model => model.title)" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="city" class="form-label">Plaats</label>
-                        <input type="text" class="form-control" id="city" name="city" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="contactNr" class="form-label">Contact nummer</label>
-                        <input type="number" class="form-control" id="contactNr" name="contactNr">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="division" class="form-label">Divisie / Klasse</label>
-                        <select asp-for="division" class="form-control" asp-items="Html.GetEnumSelectList<Division>()">
-                            <option value="" disabled>-- Selecteer Divisie / Klasse --</option>
-                        </select>
-                    </div>
-
+                        <label for="description" class="form-label">Beschrijving</label>
+                        <input type="text" class="form-control" id="description" name="description" value="@Html.DisplayFor(model => model.description)" required>
+                    </div>             
                 </div>
             </div>
 

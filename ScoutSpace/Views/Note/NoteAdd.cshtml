@@ -1,0 +1,63 @@
+﻿@using Core.Domain.Extensions
+@using Core.Domain
+@model Note
+
+@{
+    ViewData["Title"] = "NoteAdd Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="NoteAdd Page">
+</head>
+<body>
+    <div class="container mt-4 mb-1">
+        <h2>Voeg een notitie toe</h2>
+
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <form id="addForm" action="/Note/NoteAdd" method="post">
+            <input type="hidden" name="playerId" value="@ViewData["playerId"]" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titel</label>
+                        <input type="text" class="form-control" id="title" name="title" value="@Html.DisplayFor(model => model.title)" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Beschrijving</label>
+                        <input type="text" class="form-control" id="description" name="description" value="@Html.DisplayFor(model => model.description)" required>
+                    </div>             
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary addButton" id="submitButton" disabled>Voeg toe</button>
+        </form>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById("addForm");
+            var submitButton = document.getElementById("submitButton");
+
+            form.addEventListener("input", function () {
+                var inputs = form.querySelectorAll("input[required]");
+                var isFormValid = Array.from(inputs).every(function (input) {
+                    return input.value.trim() !== "";
+                });
+
+                submitButton.disabled = !isFormValid;
+            });
+        });
+    </script>
+</body>
+</html>

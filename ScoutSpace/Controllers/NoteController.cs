@@ -27,7 +27,7 @@ namespace ScoutSpace.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> NoteAdd(Note note)
+        public IActionResult NoteAdd(Note note)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace ScoutSpace.Controllers
                 {
                     HttpResponseMessage addNoteResponse = client.PostAsJsonAsync($"{client.BaseAddress}/note", note).Result;
 
-                    if(addNoteResponse.IsSuccessStatusCode) 
+                    if (addNoteResponse.IsSuccessStatusCode)
                     {
                         return RedirectToAction("PlayerDetail", "Player", new { id = note.playerId });
                     }

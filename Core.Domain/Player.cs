@@ -20,6 +20,6 @@ namespace Core.Domain
         public Foot? preferedFoot { get; set; }
         public int? teamId { get; set; }
         public Team? team { get; set; }
-        public ICollection<Notitie>? notities { get; set; }
+        public ICollection<Note>? notities { get; set; }
     }
 }

@@ -15,12 +15,10 @@ namespace Infrastructure
         public DbSet<Scout> Scout { get; set; }
         public DbSet<Player> Player { get; set; }
         public DbSet<Team> Team { get; set; }
-        public DbSet<Notitie> Notitie { get; set; }
+        public DbSet<Note> Note { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Voeg hier je andere configuraties toe
 
-            // Configureer de relatie tussen Player en Notitie
             modelBuilder.Entity<Player>()
                 .HasMany(p => p.notities)
                 .WithOne()

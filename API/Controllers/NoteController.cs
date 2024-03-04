@@ -89,7 +89,7 @@ namespace API.Controllers
                     return NotFound("Notitie met dit ID is niet gevonden.");
                 }
 
-            //    await _noteService.DeleteNoteAsync(id);
+                await _noteService.DeleteNoteAsync(id);
                 return Ok("Notitie met ID " + id + " verwijderd");
             }
             catch (Exception ex)

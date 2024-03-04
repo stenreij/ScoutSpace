@@ -11,6 +11,7 @@ namespace Core.DomainServices.Interfaces
     {
         Task<IEnumerable<Note>> GetAllNotesAsync();
         Task<Note> GetNoteByIdAsync(int id);
+        Task DeleteNoteAsync(int id);
         Task AddNoteAsync(Note note);
         Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId);
 

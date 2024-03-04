@@ -37,6 +37,11 @@ namespace Core.DomainServices.Services
             await _noteRepo.AddNoteAsync(note);
         }
 
+        Task INoteService.DeleteNoteAsync(int id)
+        {
+            return _noteRepo.DeleteNoteAsync(id);
+        }
+
         public Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId)
         {
             return _noteRepo.IsNoteTitleUniqueAsync(noteTitle, playerId);

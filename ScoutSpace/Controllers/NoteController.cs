@@ -59,5 +59,29 @@ namespace ScoutSpace.Controllers
             return View(note);
         }
 
+        [HttpPost]
+        public IActionResult NoteDelete(int id, int playerId)
+        {
+            try
+            {
+                HttpResponseMessage response = client.DeleteAsync($"{client.BaseAddress}/note/{id}").Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("PlayerDetail", "Player", new { id = playerId });
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return View();
+            }
+        }
+
     }
 }

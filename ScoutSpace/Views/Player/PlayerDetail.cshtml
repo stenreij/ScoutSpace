@@ -32,7 +32,8 @@
                                         <div class="">
                                             <div class="fw-bold">Spelerinfo</div>
                                             <div>@(Model.line?.GetDisplayName() ?? null)</div>
-                                            <div>@(Model.position?.GetDisplayName() ?? null)</div>                                            <div>@Model.preferedFoot</div>
+                                            <div>@(Model.position?.GetDisplayName() ?? null)</div>                                            
+                                            <div>@Model.preferedFoot</div>
                                         </div>
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
@@ -51,7 +52,7 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="">
                                             <a asp-controller="Player" asp-action="PlayerUpdate" asp-route-id="@Model.playerId" class="btn btn-primary addButton me-2"> Update</a>
-                                            <button class="btn btn-danger" onclick="confirmDelete(@Model.playerId)">Verwijder</button>
+                                            <button class="btn btn-danger" onclick="confirmDeletePlayer(@Model.playerId)">Verwijder</button>
                                         </div>
                                     </li>
                                 </ul>
@@ -88,8 +89,7 @@
                                     </li>
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="">
-                                            <button class="btn btn-primary addButton me-2">Update</button>
-                                            <button class="btn btn-danger">Verwijder</button>
+                                            <button class="btn btn-primary addButton me-2">Transfer</button>
                                         </div>
                                     </li>
                                 </ul>
@@ -113,7 +113,7 @@
                                             <p class="card-text">@notitie.description</p>
                                             <div class="">
                                                 <button class="btn btn-primary addButton me-2">Update</button>
-                                                <button class="btn btn-danger">Verwijder</button>
+                                                <button class="btn btn-danger" onclick="confirmDeleteNote(@notitie.noteId, '@notitie.title', playerId)">Verwijder</button>
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +130,7 @@
                                             <p class="card-text">@notitie.description</p>
                                             <div class="">
                                                 <button class="btn btn-primary addButton me-2">Update</button>
-                                                <button class="btn btn-danger">Verwijder</button>
+                                                <button class="btn btn-danger" onclick="confirmDeleteNote(@notitie.noteId, '@notitie.title', playerId)">Verwijder</button>
                                             </div>
                                         </div>
                                     </div>
@@ -153,26 +153,37 @@
             }
         }
 
-        function confirmDelete(playerId) {
+        function confirmDeletePlayer(playerId) {
             var playerName = "@Model.firstName @Model.lastName";
-            if (confirm(`Weet je zeker dat je speler ${playerName} wilt verwijderen?`)) {
-                window.location.href = `/api/player/${playerId}`;
-            }
-        }
-
-        function confirmDelete(playerId) {
-            var playerName = "@Model.firstName @Model.lastName";
-            if (confirm(`Weet je zeker dat je speler ${playerName} wilt verwijderen?`)) {
+            if (confirm(`Weet je zeker dat je speler '${playerName}' wilt verwijderen?`)) {
                 $.ajax({
                     url: `/Player/PlayerDelete/${playerId}`,
                     type: 'POST',
                     success: function (result) {
                         console.log(result);
                         window.location.href = '/Player/PlayerList';
-
                     },
                     error: function (error) {
                         console.error('Er is een fout opgetreden bij het verwijderen:', error);
+                    }
+                });
+            }
+        }
+
+        var playerId = @Model.playerId;
+
+        function confirmDeleteNote(noteId, noteTitle, playerId) {
+            var note = noteId + "; " + noteTitle;
+            if (confirm(`Weet je zeker dat je notitie '${note}' wilt verwijderen?`)) {
+                $.ajax({
+                    url: `/Note/NoteDelete/${noteId}?playerId=${playerId}`, 
+                    type: 'POST',
+                    success: function (result) {
+                        console.log(result);
+                        window.location.href = `/Player/PlayerDetail/${playerId}`;
+                    },
+                    error: function (error) {
+                        console.error('Er is een fout opgetreden bij het verwijderen van de notitie:', error);
                     }
                 });
             }

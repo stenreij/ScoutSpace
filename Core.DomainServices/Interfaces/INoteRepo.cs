@@ -5,7 +5,9 @@ namespace Core.DomainServices.Interfaces
     public interface INoteRepo
     {
         Task<IEnumerable<Note>> GetAllNotesAsync();
+        Task<Note> GetNoteByIdAsync(int id);
         Task AddNoteAsync(Note note);
+        Task DeleteNoteAsync(int id);
         Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId);
 
     }

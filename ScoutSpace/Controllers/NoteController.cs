@@ -27,7 +27,7 @@ namespace ScoutSpace.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> NoteAdd(Note note)
+        public IActionResult NoteAdd(Note note)
         {
             try
             {
@@ -35,7 +35,7 @@ namespace ScoutSpace.Controllers
                 {
                     HttpResponseMessage addNoteResponse = client.PostAsJsonAsync($"{client.BaseAddress}/note", note).Result;
 
-                    if(addNoteResponse.IsSuccessStatusCode) 
+                    if (addNoteResponse.IsSuccessStatusCode)
                     {
                         return RedirectToAction("PlayerDetail", "Player", new { id = note.playerId });
                     }
@@ -57,6 +57,30 @@ namespace ScoutSpace.Controllers
             }
             ViewData["playerId"] = note.playerId;
             return View(note);
+        }
+
+        [HttpPost]
+        public IActionResult NoteDelete(int id, int playerId)
+        {
+            try
+            {
+                HttpResponseMessage response = client.DeleteAsync($"{client.BaseAddress}/note/{id}").Result;
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("PlayerDetail", "Player", new { id = playerId });
+                }
+                else
+                {
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error: {ex.Message}");
+                return View();
+            }
         }
 
     }

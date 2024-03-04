@@ -20,6 +20,11 @@ namespace Core.DomainServices.Services
         {
             return _noteRepo.GetAllNotesAsync();
         }
+        Task<Note> INoteService.GetNoteByIdAsync(int id)
+        {
+            return _noteRepo.GetNoteByIdAsync(id);
+        }
+
         public async Task AddNoteAsync(Note note)
         {
             bool isNoteTitleUnique = await _noteRepo.IsNoteTitleUniqueAsync(note.title, note.playerId);
@@ -31,6 +36,7 @@ namespace Core.DomainServices.Services
 
             await _noteRepo.AddNoteAsync(note);
         }
+
         public Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId)
         {
             return _noteRepo.IsNoteTitleUniqueAsync(noteTitle, playerId);

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Core.Domain;
 using Core.DomainServices.Interfaces;
+using Core.DomainServices.Services;
 
 namespace API.Controllers
 {
@@ -35,6 +36,23 @@ namespace API.Controllers
             }
         }
 
+        [HttpGet("note/{id}")]
+        public async Task<IActionResult> GetNoteByIdAsync(int id)
+        {
+            _logger.LogInformation("GetNoteById() aangeroepen");
+
+            try
+            {
+                var note = await _noteService.GetNoteByIdAsync(id);
+                return Ok(note);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het ophalen van notitie: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het ophalen van notitie.");
+            }
+        }
+
         [HttpPost("note")]
         public async Task<IActionResult> AddNoteAsync([FromBody] Note note)
         {
@@ -56,6 +74,30 @@ namespace API.Controllers
                 return StatusCode(500, "Er is een interne fout opgetreden bij het toevoegen van notitie.");
             }
         }
-      
+
+        [HttpDelete("note/{id}")]
+        public async Task<IActionResult> DeleteNoteAsync(int id)
+        {
+            _logger.LogInformation($"DeleteNoteAsync() aangeroepen voor notitie met ID: {id}");
+
+            try
+            {
+                var note = await _noteService.GetNoteByIdAsync(id);
+                if (note == null)
+                {
+                    _logger.LogWarning($"Notitie met id {id} niet gevonden");
+                    return NotFound("Notitie met dit ID is niet gevonden.");
+                }
+
+            //    await _noteService.DeleteNoteAsync(id);
+                return Ok("Notitie met ID " + id + " verwijderd");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het verwijderen van notitie: {ex.Message}");
+                return StatusCode(500, "Er is een interne fout opgetreden bij het verwijderen van notitie.");
+            }
+        }
+
     }
 }

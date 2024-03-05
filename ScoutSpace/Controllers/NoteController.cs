@@ -83,5 +83,25 @@ namespace ScoutSpace.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult NoteUpdate(int id)
+        {
+            Note note = new Note();
+            HttpResponseMessage response = client.GetAsync($"{client.BaseAddress}/note/{id}").Result;
+
+            if (response.IsSuccessStatusCode)
+            {
+                string data = response.Content.ReadAsStringAsync().Result;
+                note = JsonConvert.DeserializeObject<Note>(data); 
+
+                return View("NoteUpdate", note);
+            }
+            else
+            {
+                Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                return NotFound();
+            }
+        }
+
     }
 }

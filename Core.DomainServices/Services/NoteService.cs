@@ -31,10 +31,22 @@ namespace Core.DomainServices.Services
 
             if (!isNoteTitleUnique)
             {
-                throw new InvalidOperationException($"Notitie met titel {note.title} bestaat al.");
+                throw new InvalidOperationException($"Notitie met titel '{note.title}' bestaat al.");
             }
 
             await _noteRepo.AddNoteAsync(note);
+        }
+
+        public async Task UpdateNoteAsync(Note note)
+        {
+            bool isNoteTitleUnique = await _noteRepo.IsNoteTitleUniqueAsync(note.title, note.playerId);
+
+            if (!isNoteTitleUnique)
+            {
+                throw new InvalidOperationException($"Notitie met titel '{note.title}' bestaat al voor deze speler.");
+            }
+
+            await _noteRepo.UpdateNoteAsync(note);
         }
 
         Task INoteService.DeleteNoteAsync(int id)

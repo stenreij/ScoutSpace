@@ -42,6 +42,17 @@ namespace Infrastructure
             }
         }
 
+        public async Task UpdateNoteAsync(Note note)
+        {
+            var noteToUpdate = await _context.Note.FindAsync(note.noteId);
+
+            if (noteToUpdate != null)
+            {
+                _context.Entry(noteToUpdate).CurrentValues.SetValues(note);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId)
         {
             return !await _context.Note.AnyAsync(n => n.title == noteTitle && n.playerId == playerId);

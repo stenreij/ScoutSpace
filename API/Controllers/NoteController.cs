@@ -75,6 +75,35 @@ namespace API.Controllers
             }
         }
 
+        [HttpPut("note/{id}")]
+        public async Task<IActionResult> UpdateNoteAsync(int id, [FromBody] Note updatedNote)
+        {
+            _logger.LogInformation($"UpdateNoteAsync() aangeroepen voor notitie met ID: {id}");
+
+            if (updatedNote == null)
+            {
+                return BadRequest();
+            }
+
+            updatedNote.noteId = id;
+
+            try
+            {
+                await _noteService.UpdateNoteAsync(updatedNote);          
+                return Ok(updatedNote);
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError($"Notitie met titel {updatedNote.title} bestaat al.");
+                return BadRequest($"Een notitie met de naam {updatedNote.title} bestaat al. Kies een andere titel.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Fout bij het bijwerken van notitie: {ex.Message}");
+                return NotFound($"Notitie met ID {id} niet gevonden.");
+            }
+        }
+
         [HttpDelete("note/{id}")]
         public async Task<IActionResult> DeleteNoteAsync(int id)
         {

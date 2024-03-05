@@ -112,7 +112,7 @@
                                         <div class="details" style="display: none;">
                                             <p class="card-text">@notitie.description</p>
                                             <div class="">
-                                                <button class="btn btn-primary addButton me-2">Update</button>
+                                                <button onclick="updateNote(@notitie.noteId)" class="btn btn-primary addButton me-2">Update</button>
                                                 <button class="btn btn-danger" onclick="confirmDeleteNote(@notitie.noteId, '@notitie.title', playerId)">Verwijder</button>
                                             </div>
                                         </div>
@@ -129,7 +129,7 @@
                                         <div class="details" style="display: none;">
                                             <p class="card-text">@notitie.description</p>
                                             <div class="">
-                                                <button class="btn btn-primary addButton me-2">Update</button>
+                                                <button onclick="updateNote(@notitie.noteId)" class="btn btn-primary addButton me-2">Update</button>
                                                 <button class="btn btn-danger" onclick="confirmDeleteNote(@notitie.noteId, '@notitie.title', playerId)">Verwijder</button>
                                             </div>
                                         </div>
@@ -187,6 +187,10 @@
                     }
                 });
             }
+        }
+
+        function updateNote(noteId) {
+            window.location.href = `/Note/NoteUpdate/${noteId}`;
         }
     </script>
 </body>

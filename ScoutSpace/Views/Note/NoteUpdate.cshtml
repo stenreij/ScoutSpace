@@ -1,5 +1,64 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using Core.Domain.Extensions
+@using Core.Domain
+@model Note
+
 @{
+    ViewData["Title"] = "NoteUpdate Page";
 }
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="NoteUpdate Page">
+</head>
+<body>
+    <div class="container mt-4 mb-1">
+        <h2>Update de notitie</h2>
+
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
+        <form id="updateForm" action="/Note/NoteUpdate" method="post">
+            <input type="hidden" name="noteId" value="@Model.noteId" />
+            <input type="hidden" name="playerId" value="@ViewData["playerId"]" />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Titel</label>
+                        <input type="text" class="form-control" id="title" name="title" value="@Html.DisplayFor(model => model.title)" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Beschrijving</label>
+                        <input type="text" class="form-control" id="description" name="description" value="@Html.DisplayFor(model => model.description)" required>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary addButton" id="submitButton">Update</button>
+        </form>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var form = document.getElementById("updateForm");
+            var submitButton = document.getElementById("submitButton");
+
+            form.addEventListener("input", function () {
+                var inputs = form.querySelectorAll("input[required]");
+                var isFormValid = Array.from(inputs).every(function (input) {
+                    return input.value.trim() !== "";
+                });
+
+                submitButton.disabled = !isFormValid;
+            });
+        });
+    </script>
+</body>
+</html>

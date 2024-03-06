@@ -24,11 +24,17 @@ body {
     background-color: transparent !important;
     background: #12173bff !important;
     border: black !important;
+    font-size: 24px;
+    display: flex;
+    align-items: center; /* Voeg dit toe om de elementen verticaal uit te lijnen */
 }
 
 .navbar-brand {
     color: white !important;
     margin-left: 2%;
+    font-size: 30px;
+    display: flex;
+    align-items: center; /* Voeg dit toe om de elementen verticaal uit te lijnen */
 }
 
 .nav-link, .navbar-nav {

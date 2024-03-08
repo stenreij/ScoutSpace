@@ -9,7 +9,7 @@ namespace Core.DomainServices.Interfaces
         Task AddNoteAsync(Note note);
         Task UpdateNoteAsync(Note note);
         Task DeleteNoteAsync(int id);
-        Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId);
+        Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId, int noteId);
 
     }
 }

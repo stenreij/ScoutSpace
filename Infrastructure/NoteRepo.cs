@@ -53,9 +53,9 @@ namespace Infrastructure
             }
         }
 
-        public async Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId)
+        public async Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId, int noteId)
         {
-            return !await _context.Note.AnyAsync(n => n.title == noteTitle && n.playerId == playerId);
+            return !await _context.Note.AnyAsync(n => n.title == noteTitle && n.playerId == playerId && n.noteId != noteId);
         }
 
     }

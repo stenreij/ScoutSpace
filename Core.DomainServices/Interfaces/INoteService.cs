@@ -14,7 +14,7 @@ namespace Core.DomainServices.Interfaces
         Task DeleteNoteAsync(int id);
         Task UpdateNoteAsync(Note note);
         Task AddNoteAsync(Note note);
-        Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId);
+        Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId, int noteId);
 
     }
 }

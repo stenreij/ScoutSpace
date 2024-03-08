@@ -27,7 +27,7 @@ namespace Core.DomainServices.Services
 
         public async Task AddNoteAsync(Note note)
         {
-            bool isNoteTitleUnique = await _noteRepo.IsNoteTitleUniqueAsync(note.title, note.playerId);
+            bool isNoteTitleUnique = await _noteRepo.IsNoteTitleUniqueAsync(note.title, note.playerId, note.noteId);
 
             if (!isNoteTitleUnique)
             {
@@ -39,7 +39,7 @@ namespace Core.DomainServices.Services
 
         public async Task UpdateNoteAsync(Note note)
         {
-            bool isNoteTitleUnique = await _noteRepo.IsNoteTitleUniqueAsync(note.title, note.playerId);
+            bool isNoteTitleUnique = await _noteRepo.IsNoteTitleUniqueAsync(note.title, note.playerId, note.noteId);
 
             if (!isNoteTitleUnique)
             {
@@ -54,9 +54,9 @@ namespace Core.DomainServices.Services
             return _noteRepo.DeleteNoteAsync(id);
         }
 
-        public Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId)
+        public Task<bool> IsNoteTitleUniqueAsync(string noteTitle, int playerId, int noteId)
         {
-            return _noteRepo.IsNoteTitleUniqueAsync(noteTitle, playerId);
+            return _noteRepo.IsNoteTitleUniqueAsync(noteTitle, playerId, noteId);
         }
 
     }

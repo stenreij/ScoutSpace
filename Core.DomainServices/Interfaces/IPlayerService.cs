@@ -14,5 +14,6 @@ namespace Core.DomainServices.Interfaces
         Task UpdatePlayerAsync(Player player);
         Task DeletePlayerAsync(int id);
         Task AddPlayerAsync(Player player);
+        Task<bool> IsNewPlayerAsync(string firstName, string lastName, DateTime birthDate);
     }
 }

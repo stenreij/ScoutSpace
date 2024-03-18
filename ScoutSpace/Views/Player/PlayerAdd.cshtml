@@ -15,38 +15,45 @@
     <div class="container mt-4 mb-1">
         <h2>Voeg een nieuwe speler toe</h2>
 
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
         <form id="addForm" action="/Player/PlayerAdd" method="post">
 
             <div class="row">
                 <div class="col-md-6">
                     <div class="mb-3">
                         <label for="firstName" class="form-label">Voornaam*</label>
-                        <input type="text" class="form-control" id="firstName" name="firstName" required>
+                        <input type="text" class="form-control" id="firstName" name="firstName" value="@Html.DisplayFor(model => model.firstName)" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="lastName" class="form-label">Achternaam*</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" required>
+                        <input type="text" class="form-control" id="lastName" name="lastName" value="@Html.DisplayFor(model => model.lastName)" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="birthDate" class="form-label">Geboortedatum*</label>
-                        <input type="date" class="form-control" id="birthDate" name="birthDate" required>
+                        <input type="date" class="form-control" id="birthDate" name="birthDate" value="@Html.DisplayFor(model => model.birthDate)" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email">
+                        <input type="email" class="form-control" id="email" name="email" value="@Html.DisplayFor(model => model.email)">
                     </div>
 
                     <div class="mb-3">
                         <label for="residence" class="form-label">Woonplaats</label>
-                        <input type="text" class="form-control" id="residence" name="residence">
+                        <input type="text" class="form-control" id="residence" name="residence" value="@Html.DisplayFor(model => model.residence)">
                     </div>
 
                     <div class="mb-3">
                         <label for="phoneNr" class="form-label">Telefoon nr.</label>
-                        <input type="number" class="form-control" id="phoneNr" name="phoneNr">
+                        <input type="number" class="form-control" id="phoneNr" name="phoneNr" value="@Html.DisplayFor(model => model.phoneNr)">
                     </div>
 
                     <div class="mb-2">

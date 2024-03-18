@@ -230,19 +230,19 @@ namespace ScoutSpace.Controllers
                     }
                     else
                     {
-                        Console.WriteLine($"Error: {addPlayerResponse.StatusCode} - {addPlayerResponse.ReasonPhrase}");
-                        ViewBag.ErrorMessage = "Error adding player";
-                        return View();
+                        Console.WriteLine($"Error: {addPlayerResponse.ToString} - {addPlayerResponse.ReasonPhrase}");
+                        ViewBag.ErrorMessage = "Deze speler bestaat al.";
+                        return View(newPlayer);
                     }
                 }
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
-                return View();
+                return View(newPlayer);
             }
 
-            return View();
+            return View(newPlayer);
         }
 
         [HttpGet]

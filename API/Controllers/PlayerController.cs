@@ -157,6 +157,11 @@ namespace API.Controllers
                 await _playerService.AddPlayerAsync(player);
                 return Ok(player);
             }
+            catch(InvalidOperationException)
+            {
+                _logger.LogError($"Speler met {player.firstName} {player.lastName} {player.birthDate} bestaat al.");
+                return BadRequest($"Een speler met {player.firstName} {player.lastName} {player.birthDate}");
+            }
             catch(Exception ex)
             {
                 _logger.LogError($"Fout bij het toevoegen van de speler: {ex.Message}");

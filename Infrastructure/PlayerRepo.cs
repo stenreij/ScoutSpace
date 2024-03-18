@@ -57,5 +57,10 @@ namespace Infrastructure
             await _context.Player.AddAsync(player);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<bool> IsNotExistingPlayerAsync(string firstName, string lastName, DateTime birthDate)
+        {
+            return !await _context.Player.AnyAsync(p => p.firstName == firstName && p.lastName == lastName && p.birthDate == birthDate);
+        }
     }
 }

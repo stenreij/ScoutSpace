@@ -114,6 +114,9 @@ namespace ScoutSpace.Controllers
                         return NotFound();
                     }
 
+                    Player oldPlayer = JsonConvert.DeserializeObject<Player>(playerData);
+
+
                     currentPlayer.firstName = updatedPlayer.firstName;
                     currentPlayer.lastName = updatedPlayer.lastName;
                     currentPlayer.birthDate = updatedPlayer.birthDate;
@@ -134,8 +137,8 @@ namespace ScoutSpace.Controllers
                     else
                     {
                         Console.WriteLine($"Error: {getPlayerResponse.StatusCode} - {getPlayerResponse.ReasonPhrase}");
-                        ViewBag.ErrorMessage = "Error retrieving player data";
-                        return View();
+                        ViewBag.ErrorMessage = "Ongeldige invoer van voornaam, achternaam & geboortedatum, er bestaat al een speler met deze waardes.";
+                        return View(oldPlayer);
                     }
                 }
             }

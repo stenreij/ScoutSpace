@@ -12,7 +12,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-
+    <a asp-area="" asp-controller="Player" asp-action="PlayerList" class="btn btn-primary addButton mt-3">Bekijk spelerlijst</a>
+    <a asp-area="" asp-controller="Player" asp-action="PlayerAdd" class="btn btn-primary addButton mt-3">Voeg speler toe</a>
     <h2 class="mt-3">Transfer</h2>
 
     <form action="/Player/Transfer" method="post" id="transferForm">

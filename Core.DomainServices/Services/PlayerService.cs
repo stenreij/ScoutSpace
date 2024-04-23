@@ -27,9 +27,16 @@ namespace Core.DomainServices.Services
             return _playerRepo.GetPlayerByIdAsync(id); 
         }
 
-        Task IPlayerService.UpdatePlayerAsync(Player player)
+        async Task IPlayerService.UpdatePlayerAsync(Player player)
         {
-            return _playerRepo.UpdatePlayerAsync(player);
+            bool isNewPlayer = await _playerRepo.IsNotExistingPlayerUpdateAsync(player.firstName, player.lastName, player.birthDate, player.playerId);
+
+            if (!isNewPlayer)
+            {
+                throw new InvalidOperationException($"Speler {player.firstName} {player.lastName} {player.birthDate} bestaat al.");
+            }
+
+            await _playerRepo.UpdatePlayerAsync(player);
         }
 
         Task IPlayerService.DeletePlayerAsync(int id)
@@ -51,6 +58,11 @@ namespace Core.DomainServices.Services
         public Task<bool> IsNewPlayerAsync(string firstName, string lastName, DateTime birthDate) 
         { 
             return _playerRepo.IsNotExistingPlayerAsync(firstName, lastName, birthDate);
+        }
+
+        public Task<bool> IsNotExistingPlayerUpdateAsync(string firstName, string lastName, DateTime birthDate, int playerId)
+        {
+            return _playerRepo.IsNotExistingPlayerUpdateAsync(firstName, lastName, birthDate, playerId);
         }
     }
 }

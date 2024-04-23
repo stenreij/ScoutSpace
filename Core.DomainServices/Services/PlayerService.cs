@@ -29,7 +29,7 @@ namespace Core.DomainServices.Services
 
         async Task IPlayerService.UpdatePlayerAsync(Player player)
         {
-            bool isNewPlayer = await _playerRepo.IsNotExistingPlayerAsync(player.firstName, player.lastName, player.birthDate);
+            bool isNewPlayer = await _playerRepo.IsNotExistingPlayerUpdateAsync(player.firstName, player.lastName, player.birthDate, player.playerId);
 
             if (!isNewPlayer)
             {
@@ -58,6 +58,11 @@ namespace Core.DomainServices.Services
         public Task<bool> IsNewPlayerAsync(string firstName, string lastName, DateTime birthDate) 
         { 
             return _playerRepo.IsNotExistingPlayerAsync(firstName, lastName, birthDate);
+        }
+
+        public Task<bool> IsNotExistingPlayerUpdateAsync(string firstName, string lastName, DateTime birthDate, int playerId)
+        {
+            return _playerRepo.IsNotExistingPlayerUpdateAsync(firstName, lastName, birthDate, playerId);
         }
     }
 }

@@ -26,7 +26,7 @@ body {
     border: black !important;
     font-size: 24px;
     display: flex;
-    align-items: center; /* Voeg dit toe om de elementen verticaal uit te lijnen */
+    align-items: center;
 }
 
 .navbar-brand {
@@ -34,7 +34,7 @@ body {
     margin-left: 2%;
     font-size: 30px;
     display: flex;
-    align-items: center; /* Voeg dit toe om de elementen verticaal uit te lijnen */
+    align-items: center;
 }
 
 .nav-link, .navbar-nav {
@@ -46,14 +46,15 @@ body {
     border: none;
 }
 
-.navbar-light .navbar-nav .dropdown-menu .dropdown-item {
-color: white !important;
-}
 
-.navbar-light .navbar-nav .dropdown-menu .dropdown-item:hover,
-.navbar-light .navbar-nav .dropdown-menu .dropdown-item:focus {
-    background-color: #27315ef2 !important;
-}
+    .navbar-light .navbar-nav .dropdown-menu .dropdown-item {
+        color: white !important;
+    }
+
+        .navbar-light .navbar-nav .dropdown-menu .dropdown-item:hover,
+        .navbar-light .navbar-nav .dropdown-menu .dropdown-item:focus {
+            background-color: #27315ef2 !important;
+        }
 
 /* Footer */
 .footer {
@@ -70,11 +71,11 @@ color: white !important;
     cursor: pointer;
 }
 
-.card-hover:hover {
-    transform: translateY(-10px);
-}
+    .card-hover:hover {
+        transform: translateY(-10px);
+    }
 
-.card-img-top{
+.card-img-top {
     max-width: 75%;
 }
 
@@ -82,7 +83,7 @@ color: white !important;
     overflow-x: hidden;
 }
 
-.card-title{
+.card-title {
     color: black;
 }
 
@@ -94,6 +95,7 @@ color: white !important;
 a {
     text-decoration: none !important;
 }
+
 .a-nav-link {
     text-decoration: underline !important;
     color: #384272f2 !important;
@@ -104,6 +106,7 @@ a {
         width: 90%;
         margin: 0 auto;
     }
+
     .img-desktop {
         display: none;
     }
@@ -135,21 +138,21 @@ a {
     color: white !important;
 }
 
-.editButton:hover {
-    background-color: #5b5974 !important;
-}
+    .editButton:hover {
+        background-color: #5b5974 !important;
+    }
 
-.editButton:active:focus, .editButton:focus {
-    box-shadow: 0 0 0 0.2rem #a9a6d1;
-}
+    .editButton:active:focus, .editButton:focus {
+        box-shadow: 0 0 0 0.2rem #a9a6d1;
+    }
 
-.btn-danger{
+.btn-danger {
     background-color: #b63f3fff !important;
 }
 
-.btn-danger:hover {
-    background-color: #8a2525ff !important;
-}
+    .btn-danger:hover {
+        background-color: #8a2525ff !important;
+    }
 
 .deleteButton:active:focus, .deleteButton:focus {
     box-shadow: 0 0 0 0.2rem rgba(255, 0, 0, 0.5);
@@ -160,10 +163,10 @@ a {
     border: none;
 }
 
-.addButton:hover {
-    background-color: #27315ef2 !important;
-}
+    .addButton:hover {
+        background-color: #27315ef2 !important;
+    }
 
-.addButton:active:focus, .addButton:focus {
-    box-shadow: #4657a5e5 !important;
-}
+    .addButton:active:focus, .addButton:focus {
+        box-shadow: #4657a5e5 !important;
+    }

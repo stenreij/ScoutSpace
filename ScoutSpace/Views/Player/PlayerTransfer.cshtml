@@ -19,7 +19,7 @@
     <form action="/Player/Transfer" method="post" id="transferForm">
         <div class="form-group">
             <label for="selectedPlayerId">Selecteer speler:</label>
-            <select class="form-control" id="selectedPlayerId" name="selectedPlayerId">
+            <select asp-for="playerToTransferId" class="form-control" id="selectedPlayerId" name="playerToTransferId">
                 <option value="" disabled selected>Selecteer</option>
                 @if (ViewBag.Players != null)
                 {
@@ -53,23 +53,32 @@
             </select>
         </div>
 
+        @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
+        {
+            <div class="alert alert-danger mt-4" role="alert">
+                @ViewBag.ErrorMessage
+            </div>
+        }
+
         <button type="submit" class="btn btn-primary addButton mt-3" id="confirmTransferBtn" disabled>Bevestig Transfer</button>
     </form>
 
     <script>
         $(document).ready(function () {
-            $('#selectedPlayerId').change(function () {
-                var selectedPlayerId = $(this).val();
-                var selectedTeam = $(this).find(':selected').data('team');
-                var selectedDivision = $(this).find(':selected').data('division');
-
+            function updateCurrentTeamInfo() {
+                var selectedTeam = $('#selectedPlayerId').find(':selected').data('team');
+                var selectedDivision = $('#selectedPlayerId').find(':selected').data('division');
                 var formattedDivision = selectedDivision.replace(/([a-z])([A-Z])/g, '$1 $2');
-
                 $('#currentTeam').text(selectedTeam);
                 $('#currentTeamDivision').text(formattedDivision);
+            }
 
+            $('#selectedPlayerId').change(function () {
+                updateCurrentTeamInfo();
                 $('#confirmTransferBtn').prop('disabled', false);
             });
+
+            updateCurrentTeamInfo();
 
             $('#transferForm').submit(function (e) {
                 if ($('#confirmTransferBtn').is(':disabled')) {

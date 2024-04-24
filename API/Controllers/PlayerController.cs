@@ -100,14 +100,22 @@ namespace API.Controllers
                 var player = await _playerService.GetPlayerByIdAsync(id);
                 if (player == null)
                 {
+                    _logger.LogError($"Speler met ID {id} niet gevonden.");
                     return NotFound($"Speler met ID {id} niet gevonden.");
                 }
 
+                var oldTeam = player.team;
                 var newTeam = await _teamService.GetTeamByIdAsync(transferModel.newTeamId);
                 if (newTeam == null)
                 {
                     _logger.LogError($"Team met ID {transferModel.newTeamId} niet gevonden.");
                     return NotFound($"Team met ID {transferModel.newTeamId} niet gevonden.");
+                }
+
+                if (oldTeam != null && oldTeam.teamId == newTeam.teamId)
+                {
+                    _logger.LogError($"Speler speelt al bij team: {transferModel.newTeamId}; {newTeam.teamName}.");
+                    return StatusCode(400, $"Speler speelt al bij team: {transferModel.newTeamId}; {newTeam.teamName}.");
                 }
 
                 player.teamId = transferModel.newTeamId;

@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 using ScoutSpace.Models;
 using System.Diagnostics;
 using System.Net.Http.Headers;
+using System.Numerics;
 
 namespace ScoutSpace.Controllers
 {
@@ -288,27 +289,58 @@ namespace ScoutSpace.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Transfer(int selectedPlayerId, TransferPlayer transferModel)
+        public async Task<IActionResult> Transfer(TransferPlayer transferModel)
         {
             try
             {
-                if (transferModel == null || transferModel.newTeamId == null)
+                if (transferModel == null || transferModel.newTeamId == 0)
                 {
                     return RedirectToAction("TransferError");
                 }
 
-                var playerId = selectedPlayerId;
-
-
-                HttpResponseMessage response = client.PutAsJsonAsync($"{client.BaseAddress}/player/{playerId}/transfer", transferModel).Result;
-
-                if (response.IsSuccessStatusCode)
+                var playerId = transferModel.playerToTransferId;
+                HttpResponseMessage playerResponse = client.GetAsync($"{client.BaseAddress}/player/{playerId}").Result;
+                if (playerResponse.IsSuccessStatusCode)
                 {
-                    return RedirectToAction("PlayerList");
+                    string data = playerResponse.Content.ReadAsStringAsync().Result;
+                    var player = JsonConvert.DeserializeObject<Player>(data);
+
+                    if (player.teamId != null && player.teamId == transferModel.newTeamId)
+                    {
+                        Console.WriteLine("Speler speelt al bij team: " + transferModel.newTeamId + "; " + player.team.teamName);
+                        ViewBag.ErrorMessage = "Deze speler speelt al bij dit team.";
+
+                        HttpResponseMessage playersResponse = client.GetAsync($"{client.BaseAddress}/players").Result;
+                        HttpResponseMessage teamsResponse = client.GetAsync($"{client.BaseAddress}/teams").Result;
+
+                        if (playersResponse.IsSuccessStatusCode && teamsResponse.IsSuccessStatusCode)
+                        {
+                            string playersData = playersResponse.Content.ReadAsStringAsync().Result;
+                            var players = JsonConvert.DeserializeObject<List<Player>>(playersData);
+                            ViewBag.Players = players;
+
+                            string teamsData = teamsResponse.Content.ReadAsStringAsync().Result;
+                            var teams = JsonConvert.DeserializeObject<List<Team>>(teamsData);
+                            ViewBag.Teams = teams;
+                        }
+
+                        return View("PlayerTransfer");
+                    }
+                
+                    HttpResponseMessage response = client.PutAsJsonAsync($"{client.BaseAddress}/player/{playerId}/transfer", transferModel).Result;
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        return RedirectToAction("PlayerList");
+                    }
+                    else
+                    {
+                        return View("PlayerTransfer");
+                    }
                 }
                 else
                 {
-                    return View("PlayerTransfer");
+                    return RedirectToAction("PlayerNotFound");
                 }
             }
             catch (Exception ex)

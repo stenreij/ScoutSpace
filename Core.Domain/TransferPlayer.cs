@@ -9,5 +9,7 @@ namespace Core.Domain
     public class TransferPlayer
     {
         public int newTeamId { get; set; }
+
+        public int playerToTransferId { get; set; } 
     }
 }

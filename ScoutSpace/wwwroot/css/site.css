@@ -170,3 +170,22 @@ a {
     .addButton:active:focus, .addButton:focus {
         box-shadow: #4657a5e5 !important;
     }
+
+
+/* Card Transfer Player*/
+.card.transfer {
+    padding: 20px; 
+}
+
+    .card.transfer:hover {
+        box-shadow: none !important; 
+        transition: none !important;
+    }
+
+    .card.transfer .card-body {
+        padding: 0; 
+    }
+
+    .card.transfer .col-md-4 {
+        padding: 20px; 
+    }

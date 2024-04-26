@@ -86,12 +86,26 @@
                     $('#currentTeam').text(selectedTeam);
                     $('#currentTeamDivision').text(formattedDivision);
                 }
+
+                function checkFields() {
+                    var isPlayerSelected = $('#selectedPlayerId').val() !== null;
+                    var isNewTeamSelected = $('#selectedNewTeam').val() !== null;
+                    console.log("Speler geselecteerd:", isPlayerSelected);
+                    console.log("Nieuw team geselecteerd:", isNewTeamSelected);
+                    if (isPlayerSelected && isNewTeamSelected) {
+                        $('#confirmTransferBtn').prop('disabled', false);
+                    } else {
+                        $('#confirmTransferBtn').prop('disabled', true);
+                    }
+                }
+
                 $('#selectedPlayerId').change(function () {
                     updateCurrentTeamInfo();
+                    checkFields();
                 });
 
-                $('#selectedPlayerId' && '#selectedNewTeam').change(function () {                  
-                    $('#confirmTransferBtn').prop('disabled', false);
+                $('#selectedNewTeam').change(function () {
+                    checkFields();
                 });
 
                 updateCurrentTeamInfo();
@@ -99,7 +113,7 @@
                 $('#transferForm').submit(function (e) {
                     if ($('#confirmTransferBtn').is(':disabled')) {
                         e.preventDefault();
-                        alert('Selecteer eerst een speler en nieuw team.');
+                        alert('Selecteer eerst een speler en een nieuw team.');
                     }
                 });
             });

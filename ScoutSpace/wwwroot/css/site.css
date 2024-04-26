@@ -12,11 +12,21 @@ html {
     position: relative;
     min-height: 100%;
     background-color: whitesmoke;
+    align-items: center;
 }
 
 body {
     margin-bottom: 60px;
     background-color: whitesmoke;
+}
+
+/* Container HTML Main */
+.container-body {
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    margin-top: 4%;
 }
 
 /* Navbar */
@@ -87,7 +97,7 @@ body {
     color: black;
 }
 
-.card:hover {
+.card-hover:hover {
     cursor: pointer;
     border: 2px solid #27315ef2;
 }
@@ -169,4 +179,31 @@ a {
 
     .addButton:active:focus, .addButton:focus {
         box-shadow: #4657a5e5 !important;
+    }
+
+
+/* Card Transfer Player*/
+.card.container {
+    padding: 20px;
+}
+
+    .card.container .col-md-4 {
+        padding: 20px;
+    }
+
+    /* Car Add Optional */
+    .card.container.optional:hover {
+        cursor: pointer;
+        border: 2px solid #27315ef2;
+    }
+
+/* Card notes */
+.card.notes {
+    cursor: pointer;
+    transition: transform 0.5s ease;
+}
+
+    .card.notes:hover {
+        cursor: pointer;
+        border: 2px solid #27315ef2;
     }

@@ -113,9 +113,15 @@ a {
 }
 
 .a-nav-link {
-    text-decoration: underline !important;
     color: #384272f2 !important;
+    transition: 0.5s ease;
 }
+
+    .a-nav-link:hover {
+        margin: 10px;
+        font-size: 18px;
+    }
+
 
 @media (max-width: 575.98px) {
     .card {

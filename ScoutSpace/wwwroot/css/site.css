@@ -191,10 +191,21 @@ a {
         padding: 20px;
     }
 
-    /* Car Add Optional */
-    .card.container.optional:hover {
-        cursor: pointer;
-        border: 2px solid #27315ef2;
+/* Card Add Optional */
+.optionalFieldsToggle {
+    align-items: center;
+    cursor: pointer;
+    padding: 5px;
+    width: fit-content;
+    transition: transform 0.5s ease;
+}
+
+    .optionalFieldsToggle i {
+        margin-left: 10px; 
+    }
+
+    .optionalFieldsToggle:hover {
+        transform: translateY(-3px);
     }
 
 /* Card notes */

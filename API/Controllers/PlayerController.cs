@@ -16,7 +16,7 @@ namespace API.Controllers
         private readonly ITeamService _teamService;
 
         public PlayerController(
-            ILogger<PlayerController> logger, 
+            ILogger<PlayerController> logger,
             IPlayerService playerService,
             ITeamService teamService)
         {
@@ -104,22 +104,23 @@ namespace API.Controllers
                     return NotFound($"Speler met ID {id} niet gevonden.");
                 }
 
-                var oldTeam = player.team;
-                var newTeam = await _teamService.GetTeamByIdAsync(transferModel.newTeamId);
-                if (newTeam == null)
+                if (transferModel.newTeamId != 0)
                 {
-                    _logger.LogError($"Team met ID {transferModel.newTeamId} niet gevonden.");
-                    return NotFound($"Team met ID {transferModel.newTeamId} niet gevonden.");
-                }
+                    var newTeam = await _teamService.GetTeamByIdAsync(transferModel.newTeamId);
+                    if (newTeam == null)
+                    {
+                        _logger.LogError($"Team met ID {transferModel.newTeamId} niet gevonden.");
+                        return NotFound($"Team met ID {transferModel.newTeamId} niet gevonden.");
+                    }
 
-                if (oldTeam != null && oldTeam.teamId == newTeam.teamId)
+                    player.teamId = transferModel.newTeamId;
+                    player.team = newTeam;
+                }
+                else
                 {
-                    _logger.LogError($"Speler speelt al bij team: {transferModel.newTeamId}; {newTeam.teamName}.");
-                    return StatusCode(400, $"Speler speelt al bij team: {transferModel.newTeamId}; {newTeam.teamName}.");
+                    player.teamId = null;
+                    player.team = null;
                 }
-
-                player.teamId = transferModel.newTeamId;
-                player.team = newTeam;
 
                 await _playerService.UpdatePlayerAsync(player);
                 return Ok(player);
@@ -156,7 +157,7 @@ namespace API.Controllers
         }
 
         [HttpPost("player")]
-        public async Task <IActionResult> AddPlayerAsync([FromBody] Player player)
+        public async Task<IActionResult> AddPlayerAsync([FromBody] Player player)
         {
             _logger.LogInformation($"AddPlayerAsync() aangeroepen");
 
@@ -165,17 +166,17 @@ namespace API.Controllers
                 await _playerService.AddPlayerAsync(player);
                 return Ok(player);
             }
-            catch(InvalidOperationException)
+            catch (InvalidOperationException)
             {
                 _logger.LogError($"Speler met {player.firstName} {player.lastName} {player.birthDate} bestaat al.");
                 return BadRequest($"Een speler met {player.firstName} {player.lastName} {player.birthDate}");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError($"Fout bij het toevoegen van de speler: {ex.Message}");
                 return StatusCode(500, "Er is een interne fout opgetreden bij het toevoegen van een speler.");
             }
         }
-        
+
     }
 }

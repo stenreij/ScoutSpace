@@ -293,9 +293,9 @@ namespace ScoutSpace.Controllers
         {
             try
             {
-                if (transferModel == null || transferModel.newTeamId == 0)
+                if (transferModel == null)
                 {
-                    return RedirectToAction("TransferError");
+                    return View("PlayerTransfer");
                 }
 
                 var playerId = transferModel.playerToTransferId;
@@ -326,7 +326,7 @@ namespace ScoutSpace.Controllers
 
                         return View("PlayerTransfer");
                     }
-                
+
                     HttpResponseMessage response = client.PutAsJsonAsync($"{client.BaseAddress}/player/{playerId}/transfer", transferModel).Result;
 
                     if (response.IsSuccessStatusCode)
@@ -348,6 +348,5 @@ namespace ScoutSpace.Controllers
                 return View("PlayerTransfer");
             }
         }
-
     }
 }

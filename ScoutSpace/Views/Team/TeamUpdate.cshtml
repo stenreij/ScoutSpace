@@ -12,7 +12,9 @@
     <meta name="description" content="TeamUpdate Page">
 </head>
 <body>
-    <div class="container mt-4 mb-1">
+    <div class="container-body">
+        <a asp-area="" asp-controller="Team" asp-action="TeamAdd" class="btn btn-primary addButton mt-3" style="margin-right: 5px;">Voeg team toe</a>
+        <a asp-area="" asp-controller="Team" asp-action="TeamPromotionRelegation" class="btn btn-primary addButton mt-3" style="margin-left: 5px;">Promotie / Degradatie</a>
         <h2>Update teamgegevens</h2>
 
         @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
@@ -26,36 +28,37 @@
             <input type="hidden" name="teamId" value="@Model.teamId" />
 
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label for="teamName" class="form-label">Teamnaam</label>
-                        <input type="text" class="form-control" id="teamName" name="teamName" value="@Model.teamName" required>
-                    </div>
+            <div class="row mt-3">
+                <div class="col">
+                    <div class="card container mb-3">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <label for="teamName" class="form-label">Teamnaam</label>
+                                <input type="text" class="form-control" id="teamName" name="teamName" value="@Model.teamName" required>
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="city" class="form-label">Plaats</label>
-                        <input type="text" class="form-control" id="city" name="city" value="@Model.city" required>
-                    </div>
+                            <div class="mb-3">
+                                <label for="city" class="form-label">Plaats</label>
+                                <input type="text" class="form-control" id="city" name="city" value="@Model.city" required>
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="contactNr" class="form-label">Contact nummer</label>
-                        <input type="number" class="form-control" id="contactNr" name="contactNr" value="@Model.contactNr">
-                    </div>
+                            <div class="mb-3">
+                                <label for="contactNr" class="form-label">Contact nummer</label>
+                                <input type="number" class="form-control" id="contactNr" name="contactNr" value="@Model.contactNr">
+                            </div>
 
-                    <div class="mb-3">
-                        <label for="division" class="form-label">Divisie / Klasse</label>
-                        <select asp-for="division" class="form-control" asp-items="Html.GetEnumSelectList<Division>()">
-                            <option value="@Model.division" selected>@Model.division.GetDisplayName()</option>
-                        </select>
+                            <div class="mb-3">
+                                <label for="division" class="form-label">Divisie / Klasse</label>
+                                <select asp-for="division" class="form-control" asp-items="Html.GetEnumSelectList<Division>()">
+                                    <option value="@Model.division" selected>@Model.division.GetDisplayName()</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary addButton">Update</button>
+                        </div>
                     </div>
-
                 </div>
             </div>
-
-            <button type="submit" class="btn btn-primary addButton">Update</button>
         </form>
-
     </div>
 
     <script>

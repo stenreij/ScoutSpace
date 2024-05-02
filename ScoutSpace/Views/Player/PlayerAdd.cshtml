@@ -10,12 +10,13 @@
 <html>
 <head>
     <meta name="description" content="PlayerAdd Page">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div class="container-body">
         <a asp-area="" asp-controller="Player" asp-action="PlayerList" class="btn btn-primary addButton mt-3" style="margin-right: 5px;">Bekijk spelerlijst</a>
         <a asp-area="" asp-controller="Player" asp-action="PlayerTransfer" class="btn btn-primary addButton mt-3" style="margin-left: 5px;">Transfer speler</a>
-        <h2>Voeg een nieuwe speler toe</h2>
+        <h2 class="mt-3">Voeg een nieuwe speler toe</h2>
 
         @if (!string.IsNullOrEmpty(ViewBag.ErrorMessage))
         {
@@ -26,11 +27,12 @@
 
         <form id="addForm" action="/Player/PlayerAdd" method="post">
 
-            <div class="row">
+            <div class="row mt-3">
                 <div class="col">
                     <div class="card container mb-3">
                         <div class="card-body">
                             <h4>Verplichte velden</h4>
+
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
@@ -51,77 +53,52 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            <hr />
 
+                            <div class="mb-3">
+                                <h4 class="optionalFieldsToggle" onclick="toggleOptionalFields()">
+                                    Optionele velden <i id="toggleIcon" class="fas fa-chevron-down"></i>
+                                </h4>
 
-
-            <div class="row">
-                <div class="col">
-                    <div class="card container optional mb-3">
-                        <div class="card-body">
-                            <h4 onclick="toggleOptionalFields()">Optionele velden</h4>
-
-                            <div class="details" style="display: none;">
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email" name="email" value="@Html.DisplayFor(model => model.email)">
+                                <div class="details" style="display: none;">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="phoneNr" class="form-label">Telefoon nr.</label>
+                                                <input type="number" class="form-control" id="phoneNr" name="phoneNr" value="@Html.DisplayFor(model => model.phoneNr)">
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label for="residence" class="form-label">Woonplaats</label>
-                                            <input type="text" class="form-control" id="residence" name="residence" value="@Html.DisplayFor(model => model.residence)">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="email" class="form-label">Email</label>
+                                                <input type="email" class="form-control" id="email" name="email" value="@Html.DisplayFor(model => model.email)">
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label for="phoneNr" class="form-label">Telefoon nr.</label>
-                                            <input type="number" class="form-control" id="phoneNr" name="phoneNr" value="@Html.DisplayFor(model => model.phoneNr)">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="mb-3">
-                                            <label for="teamId" class="form-label">Team</label>
-                                            <select asp-for="teamId" class="form-control">
-                                                <option value="">-- Selecteer Team --</option>
-                                                @if (ViewBag.Teams != null)
-                                                {
-                                                    foreach (var team in ViewBag.Teams)
-                                                    {
-                                                        <option value="@team.teamId">@team.teamName</option>
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    <option value="" disabled>No teams available</option>
-                                                }
-                                            </select>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="residence" class="form-label">Woonplaats</label>
+                                                <input type="text" class="form-control" id="residence" name="residence" value="@Html.DisplayFor(model => model.residence)">
+                                            </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col">
                                             <div class="mb-3">
-                                                <label for="position" class="form-label">Positie</label>
-                                                <select asp-for="position" class="form-control" asp-items="Html.GetEnumSelectList<Position>()">
-                                                    <option value="">-- Selecteer Positie --</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="mb-3">
-                                                <label for="line" class="form-label">Linie</label>
-                                                <select asp-for="line" class="form-control" asp-items="Html.GetEnumSelectList<Line>()">
-                                                    <option value="">-- Selecteer Linie --</option>
+                                                <label for="teamId" class="form-label">Team</label>
+                                                <select asp-for="teamId" class="form-control">
+                                                    <option value="">-- Selecteer Team --</option>
+                                                    @if (ViewBag.Teams != null)
+                                                    {
+                                                        foreach (var team in ViewBag.Teams)
+                                                        {
+                                                            <option value="@team.teamId">@team.teamName</option>
+                                                        }
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="" disabled>No teams available</option>
+                                                    }
                                                 </select>
                                             </div>
                                         </div>
@@ -134,15 +111,35 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="line" class="form-label">Linie</label>
+                                                <select asp-for="line" class="form-control" asp-items="Html.GetEnumSelectList<Line>()">
+                                                    <option value="">-- Selecteer Linie --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="mb-3">
+                                                <label for="position" class="form-label">Positie</label>
+                                                <select asp-for="position" class="form-control" asp-items="Html.GetEnumSelectList<Position>()">
+                                                    <option value="">-- Selecteer Positie --</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            <hr />
+
+                            <button type="submit" class="btn btn-primary addButton mt-2">Voeg toe</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-
-            <button type="submit" class="btn btn-primary addButton">Voeg toe</button>
         </form>
     </div>
 </body>
@@ -151,10 +148,16 @@
 <script>
     function toggleOptionalFields() {
         var details = document.querySelector('.details');
+        var toggleIcon = document.getElementById('toggleIcon');
         if (details.style.display === "none") {
             details.style.display = "block";
+            toggleIcon.classList.remove('fa-chevron-down');
+            toggleIcon.classList.add('fa-chevron-up');
         } else {
             details.style.display = "none";
+            toggleIcon.classList.remove('fa-chevron-up');
+            toggleIcon.classList.add('fa-chevron-down');
         }
     }
+
 </script>

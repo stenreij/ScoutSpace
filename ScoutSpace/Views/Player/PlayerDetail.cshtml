@@ -90,6 +90,7 @@
                                     <li class="list-group-item d-flex justify-content-between align-items-start">
                                         <div class="">
                                             <button class="btn btn-primary addButton me-2">Transfer</button>
+                                            <button class="btn btn-primary addButton me-2">Geen Team</button>
                                         </div>
                                     </li>
                                 </ul>
@@ -100,8 +101,8 @@
             </div>
             <div class="col-lg-6">
                 <div class="">
-                    <h2 class="text-center">Notities</h2>
-                    <a asp-area="" asp-controller="Note" asp-action="NoteAdd" asp-route-playerId="@Model.playerId" class="btn btn-primary addButton mt-1 m-2">Voeg notitie toe</a>
+                    <h2>Notities</h2>
+                    <a asp-area="" asp-controller="Note" asp-action="NoteAdd" asp-route-playerId="@Model.playerId" class="btn btn-primary addButton mt-1 mb-3">Voeg notitie toe</a>
                     <div class="row">
                         <div class="col-md-6">
                             @foreach (var notitie in Model.notities.Take((Model.notities.Count() + 1) / 2))

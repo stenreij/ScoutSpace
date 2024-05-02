@@ -24,46 +24,48 @@
                         "url": "/datatables/Dutch.json"
                     },
                     "responsive": true,
-                    
+
                 });
             });
         </script>
     }
 </head>
 <body>
-    <a asp-area="" asp-controller="Player" asp-action="PlayerAdd" class="btn btn-primary addButton mt-3">Voeg speler toe</a>
-    <a asp-area="" asp-controller="Player" asp-action="PlayerTransfer" class="btn btn-primary addButton mt-3">Transfer speler</a>
-    <div class="container mt-3">
-        <div class="table-responsive custom-table-container">
-            <table id="playerTable" class="table table-striped">
-                <thead>
-                    <tr>
-                        <th scope="col">Id</th>
-                        <th scope="col">Voornaam</th>
-                        <th scope="col">Achternaam</th>
-                        <th scope="col">Leeftijd</th>
-                        <th scope="col">Divisie/Klasse</th>
-                        <th scope="col">Linie</th>
-                        <th scope="col">Positie</th>
-                        <th scope="col">Been</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var player in Model)
-                    {
+    <div class="container-body">
+        <a asp-area="" asp-controller="Player" asp-action="PlayerAdd" class="btn btn-primary addButton mt-3" style="margin-right: 5px;">Voeg speler toe</a>
+        <a asp-area="" asp-controller="Player" asp-action="PlayerTransfer" class="btn btn-primary addButton mt-3" style="margin-left: 5px;">Transfer speler</a>
+        <div class="container mt-3">
+            <div class="table-responsive custom-table-container">
+                <table id="playerTable" class="table table-striped">
+                    <thead>
                         <tr>
-                            <th scope="row">@player.playerId</th>
-                            <td><a asp-area="" asp-controller="Player" asp-action="PlayerDetail" asp-route-id="@player.playerId" class="a-nav-link"><strong>@player.firstName</strong></a></td>
-                            <td>@player.lastName</td>
-                            <td>@(DateTime.Now.Year - player.birthDate.Year - (player.birthDate.DayOfYear> DateTime.Now.DayOfYear ? 1 : 0))</td>
-                            <td>@(player.team?.division.GetDisplayName() ?? "Geen Team")</td>
-                            <td>@(player.line?.GetDisplayName() ?? "-")</td>
-                            <td>@(player.position?.GetDisplayName() ?? "-")</td>
-                            <td>@(player.preferedFoot?.GetDisplayName() ?? "-")</td>
+                            <th scope="col">Id</th>
+                            <th scope="col">Voornaam</th>
+                            <th scope="col">Achternaam</th>
+                            <th scope="col">Leeftijd</th>
+                            <th scope="col">Divisie/Klasse</th>
+                            <th scope="col">Linie</th>
+                            <th scope="col">Positie</th>
+                            <th scope="col">Been</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var player in Model)
+                        {
+                            <tr>
+                                <th scope="row">@player.playerId</th>
+                                <td><a asp-area="" asp-controller="Player" asp-action="PlayerDetail" asp-route-id="@player.playerId" class="a-nav-link"><strong>@player.firstName</strong></a></td>
+                                <td>@player.lastName</td>
+                                <td>@(DateTime.Now.Year - player.birthDate.Year - (player.birthDate.DayOfYear > DateTime.Now.DayOfYear ? 1 : 0))</td>
+                                <td>@(player.team?.division.GetDisplayName() ?? "Geen Team")</td>
+                                <td>@(player.line?.GetDisplayName() ?? "-")</td>
+                                <td>@(player.position?.GetDisplayName() ?? "-")</td>
+                                <td>@(player.preferedFoot?.GetDisplayName() ?? "-")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

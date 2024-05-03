@@ -46,40 +46,43 @@
     }
 </head>
 <body>
-    <form action="/Team/TeamPromotionRelegation" method="post">
-        <div class="container mt-3">
-            <div class="table-responsive custom-table-container">
-                <table id="teamTable" class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th scope="col">Promotie</th>
-                            <th scope="col">Degradatie</th>
-                            <th scope="col">Id</th>
-                            <th scope="col">Clubnaam</th>
-                            <th scope="col">Divisie/Klasse</th>
-                            <th scope="col">Plaats</th>
-                            <th scope="col">Contact</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var team in Model)
-                        {
+    <div class="container-body">
+        <a asp-area="" asp-controller="Team" asp-action="TeamAdd" class="btn btn-primary addButton mt-3" style="margin-right: 5px;">Voeg team toe</a>
+        <a asp-area="" asp-controller="Team" asp-action="TeamPromotionRelegation" class="btn btn-primary addButton mt-3" style="margin-left: 5px;">Promotie / Degradatie</a>
+
+        <form action="/Team/TeamPromotionRelegation" method="post">
+            <div class="container mt-3">
+                <div class="table-responsive custom-table-container">
+                    <table id="teamTable" class="table table-striped">
+                        <thead>
                             <tr>
-                                <input type="hidden" name="teamId" value="@team.teamId" />
-                                <td><input type="checkbox" name="promotions" /></td>
-                                <td><input type="checkbox" name="relegations" /></td>
-                                <td>@team.teamId</td>
-                                <td>@team.teamName</td>
-                                <td>@team.division.GetDisplayName()</td>
-                                <td>@team.city</td>
-                                <td>@team.contactNr</td>
+                                <th scope="col">Promotie</th>
+                                <th scope="col">Degradatie</th>
+                                <th scope="col">Id</th>
+                                <th scope="col">Clubnaam</th>
+                                <th scope="col">Divisie/Klasse</th>
+                                <th scope="col">Plaats</th>
                             </tr>
-                        }
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach (var team in Model)
+                            {
+                                <tr>
+                                    <input type="hidden" name="teamId" value="@team.teamId" />
+                                    <td><input type="checkbox" name="promotions" /></td>
+                                    <td><input type="checkbox" name="relegations" /></td>
+                                    <td>@team.teamId</td>
+                                    <td>@team.teamName</td>
+                                    <td>@team.division.GetDisplayName()</td>
+                                    <td>@team.city</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-        <button type="submit" class="btn btn-primary addButton">Update Divisions</button>
-    </form>
+            <button type="submit" class="btn btn-primary addButton">Update Divisions</button>
+        </form>
+    </div>
 </body>
 </html>

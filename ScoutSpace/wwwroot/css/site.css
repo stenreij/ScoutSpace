@@ -161,7 +161,7 @@ a {
 }
 
     .editButton:hover {
-        background-color: #5b5974 !important;
+        background-color: #535170 !important;
     }
 
     .editButton:active:focus, .editButton:focus {
@@ -169,11 +169,12 @@ a {
     }
 
 .btn-danger {
-    background-color: #b63f3fff !important;
+    background-color: #9a2424bc !important;
+    border: none !important;
 }
 
     .btn-danger:hover {
-        background-color: #8a2525ff !important;
+        background-color: #8e2828f2 !important;
     }
 
 .deleteButton:active:focus, .deleteButton:focus {

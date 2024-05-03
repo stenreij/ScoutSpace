@@ -30,30 +30,35 @@
         </script>
     }
 </head>
-<div class="container mt-3">
-    <div class="table-responsive custom-table-container">
-        <table id="scoutTable" class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Voornaam</th>
-                    <th scope="col">Achternaam</th>
-                    <th scope="col">Rol</th>
-                    <th scope="col">Contact</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var scout in Model)
-                {
-                    <tr>
-                        <th scope="row">@scout.scoutId</th>
-                        <td>@scout.firstName</td>
-                        <td>@scout.lastName</td>
-                        <td>@scout.role</td>
-                        <td>@scout.phoneNr</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+<body>
+    <div class="container-body">
+        <div class="container mt-3">
+            <div class="table-responsive custom-table-container">
+                <table id="scoutTable" class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Id</th>
+                            <th scope="col">Voornaam</th>
+                            <th scope="col">Achternaam</th>
+                            <th scope="col">Rol</th>
+                            <th scope="col">Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var scout in Model)
+                        {
+                            <tr>
+                                <th scope="row">@scout.scoutId</th>
+                                <td>@scout.firstName</td>
+                                <td>@scout.lastName</td>
+                                <td>@scout.role</td>
+                                <td>@scout.phoneNr</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-</div>
+</body>
+</html>

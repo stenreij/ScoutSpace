@@ -13,130 +13,132 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
 </head>
 <body>
-    <div class="container mt-4">
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="player-info-container">
-                            <div>
-                                <h2>@Model.firstName @Model.lastName</h2>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="">
-                                            <div class="fw-bold">@((DateTime.Now.Year - Model.birthDate.Year - (Model.birthDate.DayOfYear > DateTime.Now.DayOfYear ? 1 : 0))) jaar</div>
-                                            <div>@Model.birthDate.ToString("dd-MM-yyyy")</div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="">
-                                            <div class="fw-bold">Spelerinfo</div>
-                                            <div>@(Model.line?.GetDisplayName() ?? null)</div>
-                                            <div>@(Model.position?.GetDisplayName() ?? null)</div>                                            
-                                            <div>@Model.preferedFoot</div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="">
-                                            <div class="fw-bold">Contactgegevens</div>
-                                            <div>@(Model.phoneNr ?? null)</div>
-                                            <div>@(Model.email ?? null)</div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="">
-                                            <div class="fw-bold">Woonplaats</div>
-                                            <div>@Model.residence</div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="">
-                                            <a asp-controller="Player" asp-action="PlayerUpdate" asp-route-id="@Model.playerId" class="btn btn-primary addButton me-2"> Update</a>
-                                            <button class="btn btn-danger" onclick="confirmDeletePlayer(@Model.playerId)">Verwijder</button>
-                                        </div>
-                                    </li>
-                                </ul>
+    <div class="container-body">
+        <div class="card container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="player-info-container">
+                                <div>
+                                    <h2>@Model.firstName @Model.lastName</h2>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="">
+                                                <div class="fw-bold">@((DateTime.Now.Year - Model.birthDate.Year - (Model.birthDate.DayOfYear > DateTime.Now.DayOfYear ? 1 : 0))) jaar</div>
+                                                <div>@Model.birthDate.ToString("dd-MM-yyyy")</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="">
+                                                <div class="fw-bold">Spelerinfo</div>
+                                                <div>@(Model.line?.GetDisplayName() ?? null)</div>
+                                                <div>@(Model.position?.GetDisplayName() ?? null)</div>
+                                                <div>@Model.preferedFoot</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="">
+                                                <div class="fw-bold">Contactgegevens</div>
+                                                <div>@(Model.phoneNr ?? null)</div>
+                                                <div>@(Model.email ?? null)</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="">
+                                                <div class="fw-bold">Woonplaats</div>
+                                                <div>@Model.residence</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="">
+                                                <a asp-controller="Player" asp-action="PlayerUpdate" asp-route-id="@Model.playerId" class="btn btn-primary addButton me-2"> Update</a>
+                                                <button class="btn btn-danger" onclick="confirmDeletePlayer(@Model.playerId)">Verwijder</button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 mt-3">
+                            <div class="team-info-container">
+                                @if (Model.team == null)
+                                {
+                                    <h2>Speler zit niet in een team.</h2>
+                                }
+                                else
+                                {
+                                    <h2>@Model.team?.teamName</h2>
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="">
+                                                <div class="fw-bold">Plaats</div>
+                                                <div>@Model.team?.city</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="">
+                                                <div class="fw-bold">Divisie / Klasse</div>
+                                                <div>@Model.team?.division.GetDisplayName()</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="">
+                                                <div class="fw-bold">Contact</div>
+                                                <div>@Model.team?.contactNr</div>
+                                            </div>
+                                        </li>
+                                        <li class="list-group-item d-flex justify-content-between align-items-start">
+                                            <div class="">
+                                                <button class="btn btn-primary addButton me-2">Transfer</button>
+                                                <button class="btn btn-primary addButton me-2">Geen Team</button>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                }
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-12 mt-4">
-                        <div class="team-info-container">
-                            @if (Model.team == null)
-                            {
-                                <h2>Speler zit niet in een team.</h2>
-                            }
-                            else
-                            {
-                                <h2>@Model.team?.teamName</h2>
-                                <ul class="list-group list-group-flush">
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="">
-                                            <div class="fw-bold">Plaats</div>
-                                            <div>@Model.team?.city</div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="">
-                                            <div class="fw-bold">Divisie / Klasse</div>
-                                            <div>@Model.team?.division.GetDisplayName()</div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="">
-                                            <div class="fw-bold">Contact</div>
-                                            <div>@Model.team?.contactNr</div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item d-flex justify-content-between align-items-start">
-                                        <div class="">
-                                            <button class="btn btn-primary addButton me-2">Transfer</button>
-                                            <button class="btn btn-primary addButton me-2">Geen Team</button>
-                                        </div>
-                                    </li>
-                                </ul>
-                            }
-                        </div>
-                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6">
-                <div class="">
-                    <h2>Notities</h2>
-                    <a asp-area="" asp-controller="Note" asp-action="NoteAdd" asp-route-playerId="@Model.playerId" class="btn btn-primary addButton mt-1 mb-3">Voeg notitie toe</a>
-                    <div class="row">
-                        <div class="col-md-6">
-                            @foreach (var notitie in Model.notities.Take((Model.notities.Count() + 1) / 2))
-                            {
-                                <div class="card notes mb-3" onclick="showDetails(this)">
-                                    <div class="card-body">
-                                        <h5 class="card-title">@notitie.title</h5>
-                                        <div class="details" style="display: none;">
-                                            <p class="card-text">@notitie.description</p>
-                                            <div class="">
-                                                <button onclick="updateNote(@notitie.noteId)" class="btn btn-primary addButton me-2">Update</button>
-                                                <button class="btn btn-danger" onclick="confirmDeleteNote(@notitie.noteId, '@notitie.title', playerId)">Verwijder</button>
+                <div class="col-lg-6">
+                    <div class="">
+                        <h2>Notities</h2>
+                        <a asp-area="" asp-controller="Note" asp-action="NoteAdd" asp-route-playerId="@Model.playerId" class="btn btn-primary addButton mt-1 mb-2">Voeg notitie toe</a>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @foreach (var notitie in Model.notities.Take((Model.notities.Count() + 1) / 2))
+                                {
+                                    <div class="card notes mb-3" onclick="showDetails(this)">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@notitie.title</h5>
+                                            <div class="details" style="display: none;">
+                                                <p class="card-text">@notitie.description</p>
+                                                <div class="">
+                                                    <button onclick="updateNote(@notitie.noteId)" class="btn btn-primary addButton me-2">Update</button>
+                                                    <button class="btn btn-danger" onclick="confirmDeleteNote(@notitie.noteId, '@notitie.title', playerId)">Verwijder</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
-                        </div>
-                        <div class="col-md-6">
-                            @foreach (var notitie in Model.notities.Skip((Model.notities.Count() + 1) / 2))
-                            {
-                                <div class="card notes mb-3" onclick="showDetails(this)">
-                                    <div class="card-body">
-                                        <h5 class="card-title">@notitie.title</h5>
-                                        <div class="details" style="display: none;">
-                                            <p class="card-text">@notitie.description</p>
-                                            <div class="">
-                                                <button onclick="updateNote(@notitie.noteId)" class="btn btn-primary addButton me-2">Update</button>
-                                                <button class="btn btn-danger" onclick="confirmDeleteNote(@notitie.noteId, '@notitie.title', playerId)">Verwijder</button>
+                                }
+                            </div>
+                            <div class="col-md-6">
+                                @foreach (var notitie in Model.notities.Skip((Model.notities.Count() + 1) / 2))
+                                {
+                                    <div class="card notes mb-3" onclick="showDetails(this)">
+                                        <div class="card-body">
+                                            <h5 class="card-title">@notitie.title</h5>
+                                            <div class="details" style="display: none;">
+                                                <p class="card-text">@notitie.description</p>
+                                                <div class="">
+                                                    <button onclick="updateNote(@notitie.noteId)" class="btn btn-primary addButton me-2">Update</button>
+                                                    <button class="btn btn-danger" onclick="confirmDeleteNote(@notitie.noteId, '@notitie.title', playerId)">Verwijder</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            }
+                                }
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -177,7 +179,7 @@
             var note = noteId + "; " + noteTitle;
             if (confirm(`Weet je zeker dat je notitie '${note}' wilt verwijderen?`)) {
                 $.ajax({
-                    url: `/Note/NoteDelete/${noteId}?playerId=${playerId}`, 
+                    url: `/Note/NoteDelete/${noteId}?playerId=${playerId}`,
                     type: 'POST',
                     success: function (result) {
                         console.log(result);

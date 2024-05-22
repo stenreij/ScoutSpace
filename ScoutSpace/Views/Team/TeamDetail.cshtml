@@ -1,0 +1,97 @@
+﻿@using Core.Domain.Extensions
+@using Core.Domain
+@model Core.Domain.Team
+
+@{
+    ViewData["Title"] = "TeamDetails Page";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="description" content="TeamDetail Page">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container-body">
+        <div class="card container">
+            <div class="col-lg-12">
+                <div class="team-info-container">
+                    <div>
+                        <h2>@Model.teamName</h2>
+                        <ul class="list-group list-group-flush">
+                            <p>Teaminfo:</p>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="">
+                                    <p>tekst</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="">
+                                    <p>tekst</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="">
+                                    <p>tekst</p>
+                                </div>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-start">
+                                <div class="">
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12 mt-3">
+                <div class="team-info-container">
+                    <h2>Selectie</h2>
+                    <div class="row">
+                        <div class="col">
+                            <div>
+                                <strong>Keepers</strong>
+                                <hr />
+                                @foreach (var player in ViewBag.Keepers ?? new List<Player>())
+                                {
+                                    <div>@player.firstName @player.lastName [@((DateTime.Now.Year - player.birthDate.Year - (player.birthDate.DayOfYear > DateTime.Now.DayOfYear ? 1 : 0)))]</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div>
+                                <strong>Verdedigers</strong>
+                                <hr />
+                                @foreach (var player in ViewBag.Verdedigers ?? new List<Player>())
+                                {
+                                    <div>@player.firstName @player.lastName [@((DateTime.Now.Year - player.birthDate.Year - (player.birthDate.DayOfYear > DateTime.Now.DayOfYear ? 1 : 0)))]</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div>
+                                <strong>Middenvelders</strong>
+                                <hr />
+                                @foreach (var player in ViewBag.Middenvelders ?? new List<Player>())
+                                {
+                                    <div>@player.firstName @player.lastName [@((DateTime.Now.Year - player.birthDate.Year - (player.birthDate.DayOfYear > DateTime.Now.DayOfYear ? 1 : 0)))]</div>
+                                }
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div>
+                                <strong>Aanvallers</strong>
+                                <hr />
+                                @foreach (var player in ViewBag.Aanvallers ?? new List<Player>())
+                                {
+                                    <div>@player.firstName @player.lastName [@((DateTime.Now.Year - player.birthDate.Year - (player.birthDate.DayOfYear > DateTime.Now.DayOfYear ? 1 : 0)))]</div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

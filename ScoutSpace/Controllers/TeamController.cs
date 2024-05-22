@@ -259,5 +259,46 @@ namespace ScoutSpace.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult TeamDetail(int id)
+        {
+            Console.WriteLine("teamdetail action called with id: " + id);
+            Team team = new Team();
+            List<Player> players = new List<Player>();
+
+            HttpResponseMessage teamResponse = client.GetAsync($"{client.BaseAddress}/team/{id}").Result;
+
+            if (teamResponse.IsSuccessStatusCode)
+            {
+                string teamData = teamResponse.Content.ReadAsStringAsync().Result;
+                team = JsonConvert.DeserializeObject<Team>(teamData);
+            }
+            else
+            {
+                Console.WriteLine($"Error: {teamResponse.StatusCode} - {teamResponse.ReasonPhrase}");
+                return NotFound();
+            }
+
+            HttpResponseMessage playersResponse = client.GetAsync($"{client.BaseAddress}/players").Result;
+            if (playersResponse.IsSuccessStatusCode)
+            {
+                string playersData = playersResponse.Content.ReadAsStringAsync().Result;
+                players = JsonConvert.DeserializeObject<List<Player>>(playersData);
+
+                players = players.Where(p => p.teamId == id).ToList();
+
+                ViewBag.Keepers = players.Where(p => p.line == Line.Keeper).ToList();
+                ViewBag.Verdedigers = players.Where(p => p.line == Line.Verdediger).ToList();
+                ViewBag.Middenvelders = players.Where(p => p.line == Line.Middenvelder).ToList();
+                ViewBag.Aanvallers = players.Where(p => p.line == Line.Aanvaller).ToList();
+            }
+            else
+            {
+                Console.WriteLine($"Error: {playersResponse.StatusCode} - {playersResponse.ReasonPhrase}");
+            }
+
+            return View(team);
+        }
+
     }
 }
